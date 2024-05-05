@@ -30,3 +30,6 @@ app.use('/user',userRoutes)
 
 const blogRoutes = require('./modules/blogs/blogRoute')
 app.use('/blog',blogRoutes)
+
+const commentRoutes = require('./modules/comments/commentRoute')
+app.use('/comment',commentRoutes)

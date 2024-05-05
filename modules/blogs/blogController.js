@@ -21,7 +21,14 @@ async function createBlog(req, res) {
 
 async function getAllBlogs(req, res) {
     try {
-        const blogs = await prisma.blog.findMany();
+        const blogs = await prisma.blog.findMany({
+            select:{
+                blogId:true,
+                text:true,
+                Comment:true,
+                createdAt:true
+            }
+        });
         res.json(blogs);
     } catch (error) {
         logger.error("Error fetching blogs:", error);
@@ -33,7 +40,13 @@ async function getMyBlogs(req, res) {
     try {
         const blogId = req.user.id;
         const blog = await prisma.blog.findMany({
-            where: { blogId }
+            where: { blogId },
+            select:{
+                blogId:true,
+                text:true,
+                Comment:true,
+                createdAt:true
+            }
         });
         if (!blog) {
             res.send('Blog not found/user doesnt have blogs');
@@ -50,7 +63,13 @@ async function getBlogById(req, res) {
     try {
         const blogId = req.params.id;
         const blog = await prisma.blog.findUnique({
-            where: { blogId }
+            where: { blogId },
+            select:{
+                blogId:true,
+                text:true,
+                Comment:true,
+                createdAt:true
+            }
         });
         if (!blog) {
             res.send('Blog not found');
