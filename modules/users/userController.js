@@ -30,29 +30,30 @@ async function createUser(req, res) {
 }
 
 async function loginUser(req, res) {
-    try {
+  try {
       const { username, password } = req.body;
       const existingUser = await prisma.user.findFirst({ where: { username: username } });
-  
+
       if (existingUser) {
-        const validPass = await bcrypt.compare(password, existingUser.password);
-        if (validPass) {
-          const token = jwt.sign({ _id: existingUser.id }, process.env.Access_Token); //, { expiresIn: '3h' }
-          res.json(token);
-          sendLogin();
-        } else {
-          logger.fatal("incorrect passsword")
-          res.send('Invalid password');
-        }
+          const validPass = await bcrypt.compare(password, existingUser.password);
+          if (validPass) {
+              const token = jwt.sign({ _id: existingUser.userId }, process.env.Access_Token);
+              res.json(token);
+              logger.info("user login successful")
+          } else {
+              logger.fatal("incorrect password");
+              res.status(401).send('Invalid password'); // Send 401 Unauthorized status for incorrect password
+          }
       } else {
-        logger.error("user not found")
-        res.status(400).send('User not found');
+          logger.error("user not found");
+          res.status(404).send('User not found'); // Send 404 Not Found status for user not found
       }
-    } catch (err) {
+  } catch (err) {
       logger.error("Error logging in", err);
-      res.status(500).send('An error occurred while logging in');
-    }
+      res.status(500).send('An error occurred while logging in'); // Send 500 Internal Server Error status for other errors
+  }
 }
+
 
 async function logoutUser(req, res) {
   try {
@@ -89,6 +90,8 @@ async function allUsers(req, res) {
         userId:true,
         createdAt:true,
         age:true,
+        Blog:true,
+        Comment:true
       }
     })
     logger.info("Users profile found successfully");

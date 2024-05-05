@@ -3,11 +3,12 @@ const logger = require("../../utils/logger");
 
 async function createBlog(req, res) {
     try {
-        const { text, userId } = req.body;
+        const { text } = req.body;
+        userId = req.user.userId
         const blog = await prisma.blog.create({
             data: {
                 text,
-                userUserId: userId // Associate the blog with the user
+                userUserId: userId
             }
         });
         logger.info("Blog created successfully");
@@ -64,7 +65,7 @@ async function getBlogById(req, res) {
 
 async function updateBlog(req, res) {
     try {
-        const blogId = req.user.id;
+        const blogId = req.params.id;
         const { text } = req.body;
         const updatedBlog = await prisma.blog.update({
             where: { blogId },
@@ -73,7 +74,7 @@ async function updateBlog(req, res) {
         logger.info("Blog updated successfully");
         await res.json(updatedBlog);
     } catch (error) {
-        logger.error("Error updating blog:", error);
+        logger.error(error);
         res.send('An error occurred while updating the blog');
     }
 }

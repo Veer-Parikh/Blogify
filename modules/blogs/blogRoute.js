@@ -8,7 +8,7 @@ router.post('/createBlog',authenticateToken,createBlog)
 router.get('/getAll',getAllBlogs)
 router.get('/myBlogs',authenticateToken,getMyBlogs)
 router.get('/blog/:id',authenticateToken,getBlogById)
-router.patch('/updateBlog',authenticateToken,updateBlog)
-router.delete('/deleteBlog',authenticateToken,deleteBlog)
+router.patch('/updateBlog/:id',authenticateToken,updateBlog)
+router.delete('/deleteBlog/:id',authenticateToken,deleteBlog)
 
 module.exports = router
