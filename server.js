@@ -27,3 +27,6 @@ app.listen(port, () => {
 
 const userRoutes = require('./modules/users/userRoute')
 app.use('/user',userRoutes)
+
+const blogRoutes = require('./modules/blogs/blogRoute')
+app.use('/blog',blogRoutes)

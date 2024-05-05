@@ -54,6 +54,16 @@ async function loginUser(req, res) {
     }
 }
 
+async function logoutUser(req, res) {
+  try {
+      // res.clearCookie('token');
+      res.status(200).send('Logged out successfully');
+  } catch (err) {
+      logger.error("Error logging out", err);
+      res.send('An error occurred while logging out');
+  }
+}
+
 async function myProfile(req, res) {
   try {
     const user = await prisma.user.findFirst({
@@ -149,4 +159,4 @@ async function deleteUser(req, res) {
   }
 }
 
-module.exports = { createUser,loginUser,myProfile,user,allUsers,profilepic,deleteUser }
+module.exports = { createUser,loginUser,myProfile,user,allUsers,profilepic,deleteUser,logoutUser }
