@@ -100,4 +100,53 @@ async function user(req, res) {
     logger.error(err);
   }
 }
-module.exports = { createUser,loginUser,myProfile,user,allUsers }
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+async function profilepic(req, res) {
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path);
+    const profilePicUrl = result.secure_url;
+
+    const user = await prisma.user.update({
+      where: {
+        id: req.user.id
+      },
+      data: {
+        pfp: profilePicUrl
+      }
+    });
+    logger.info("picture uploaded");
+    return res.send("Profile picture uploaded and saved.");
+  } catch (error) {
+    logger.error("Error uploading profile picture:", error);
+    return res.status(400).send(error);
+  }
+}
+
+async function deleteUser(req, res) {
+  try {
+    const user = await prisma.user.delete({
+      where: {
+        id: req.user.id
+      }
+    });
+    if (!user) {
+      logger.error("User doesn't exist");
+      return res.send("User does not exist");
+    }
+    if (user) {
+      logger.info("User deleted successfully");
+      return res.send("User deleted successfully");
+    }
+  } catch (err) {
+    logger.error(err);
+    res.status(400).send(err);
+  }
+}
+
+module.exports = { createUser,loginUser,myProfile,user,allUsers,profilepic,deleteUser }
