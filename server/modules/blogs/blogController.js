@@ -25,8 +25,10 @@ async function getAllBlogs(req, res) {
             select:{
                 blogId:true,
                 text:true,
-                Comment:true,
-                createdAt:true
+                comments:true,
+                createdAt:true,
+                likedBy:true,
+                user:true
             }
         });
         res.json(blogs);
@@ -44,8 +46,10 @@ async function getMyBlogs(req, res) {
             select:{
                 blogId:true,
                 text:true,
-                Comment:true,
-                createdAt:true
+                comments:true,
+                createdAt:true,
+                likedBy:true,
+                user:true
             }
         });
         if (!blog) {
@@ -67,8 +71,10 @@ async function getBlogById(req, res) {
             select:{
                 blogId:true,
                 text:true,
-                Comment:true,
-                createdAt:true
+                comments:true,
+                createdAt:true,
+                likedBy:true,
+                user:true
             }
         });
         if (!blog) {

@@ -33,3 +33,9 @@ app.use('/blog',blogRoutes)
 
 const commentRoutes = require('./modules/comments/commentRoute')
 app.use('/comment',commentRoutes)
+
+const blogLikeRoutes = require('./modules/blogLike/blogLikeRoute')
+app.use('/blogLike',blogLikeRoutes)
+
+const followRoutes = require('./modules/follow/followRoute')
+app.use('/follow',followRoutes)

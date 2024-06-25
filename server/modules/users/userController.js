@@ -70,6 +70,19 @@ async function myProfile(req, res) {
     const user = await prisma.user.findFirst({
       where: {
         id: req.user.id
+      },
+      select:{
+        username:true,
+        email:true,
+        profileUrl:true,
+        userId:true,
+        createdAt:true,
+        age:true,
+        Blog:true,
+        comments:true,
+        likedBlogs:true,
+        followers:true,
+        following:true    
       }
     });
     logger.info("User profile found successfully");
@@ -90,8 +103,11 @@ async function allUsers(req, res) {
         userId:true,
         createdAt:true,
         age:true,
-        Blog:true,
-        Comment:true
+        // Blog:true,
+        comments:true,
+        likedBlogs:true,
+        followers:true,
+        following:true   
       }
     })
     logger.info("Users profile found successfully");
@@ -105,7 +121,22 @@ async function allUsers(req, res) {
 async function user(req, res) {
   const { username } = req.params;
   try {
-    const user = await prisma.user.findFirst({ where: { username: username } })
+    const user = await prisma.user.findFirst({ 
+      where: { username: username },
+      select:{
+        username:true,
+        email:true,
+        profileUrl:true,
+        userId:true,
+        createdAt:true,
+        age:true,
+        Blog:true,
+        comments:true,
+        likedBlogs:true,
+        followers:true,
+        following:true   
+      }
+    })
     logger.info("User found");
     res.send(user);
   } catch (err) {

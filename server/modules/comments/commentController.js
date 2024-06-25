@@ -22,7 +22,17 @@ async function createComment(req, res) {
 
 async function getAllComments(req, res) {
     try {
-        const comments = await prisma.comment.findMany();
+        const comments = await prisma.comment.findMany({
+            select:{
+                user:true,
+                blog:true,
+                commentId:true,
+                text:true,
+                createdAt:true,
+                blogBlogId:true,
+                userUserId:true
+            }
+        });
         res.json(comments);
     } catch (error) {
         logger.error("Error fetching comments:", error);
@@ -34,7 +44,16 @@ async function getCommentsByBlogId(req, res) {
     try {
         const blogId = req.params.blogId;
         const comments = await prisma.comment.findMany({
-            where: { blogBlogId: blogId } // Filter comments by the specified blogId
+            where: { blogBlogId: blogId }, // Filter comments by the specified blogId
+            select:{
+                user:true,
+                blog:true,
+                commentId:true,
+                text:true,
+                createdAt:true,
+                blogBlogId:true,
+                userUserId:true
+            }
         });
         res.json(comments);
     } catch (error) {
@@ -47,7 +66,16 @@ async function getCommentById(req, res) {
     try {
         const commentId = req.params.id;
         const comment = await prisma.comment.findUnique({
-            where: { blogId: commentId }
+            where: { blogId: commentId },
+            select:{
+                user:true,
+                blog:true,
+                commentId:true,
+                text:true,
+                createdAt:true,
+                blogBlogId:true,
+                userUserId:true
+            }
         });
         if (!comment) {
             res.send('Comment not found');
