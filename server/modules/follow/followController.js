@@ -34,4 +34,40 @@ async function createFollow(req, res) {
     }
 }
 
-module.exports = {createFollow}
+async function unfollowUser(req, res) {
+    try {
+        const { followedId } = req.body; // ID of the user to be unfollowed
+        const followerId = req.user.userId; // ID of the current user (follower)
+
+        const existingFollow = await prisma.follow.findUnique({
+            where: {
+                followerId_followedId: {
+                    followerId,
+                    followedId
+                }
+            }
+        });
+
+        if (!existingFollow) {
+            return res.status(400).json({ error: "You are not following this user." });
+        }
+
+        await prisma.follow.delete({
+            where: {
+                followerId_followedId: {
+                    followerId,
+                    followedId
+                }
+            }
+        });
+
+        // Log and respond with success message
+        logger.info("Unfollowed successfully.");
+        res.json({ message: "Unfollowed successfully." });
+    } catch (error) {
+        logger.error("Error unfollowing user:", error);
+        res.status(500).send('An error occurred while unfollowing the user');
+    }
+}
+
+module.exports = {createFollow,unfollowUser }

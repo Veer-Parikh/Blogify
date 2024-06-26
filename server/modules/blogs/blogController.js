@@ -3,12 +3,14 @@ const logger = require("../../utils/logger");
 
 async function createBlog(req, res) {
     try {
-        const { text } = req.body;
+        const { text,tags } = req.body;
         userId = req.user.userId
+        const tagsArray = tags.split(' ').map(tag => tag.trim());
         const blog = await prisma.blog.create({
             data: {
                 text,
-                userUserId: userId
+                userUserId: userId,
+                tags: tagsArray
             }
         });
         logger.info("Blog created successfully");
@@ -35,6 +37,39 @@ async function getAllBlogs(req, res) {
     } catch (error) {
         logger.error("Error fetching blogs:", error);
         res.send('An error occurred while fetching blogs');
+    }
+}
+
+async function getBlogsOfFollowedUsers(req, res) {
+    try {
+        const userId = req.user.userId; // ID of the current user, retrieved from the request's user object
+        
+        // Step 1: Find the IDs of users that the current user is following
+        const following = await prisma.follow.findMany({
+            where: { followerId: userId },
+            select: { followedId: true }
+        });
+
+        // Extract followed user IDs
+        const followedUserIds = following.map(follow => follow.followedId);
+
+        // Step 2: Find blogs written by these users
+        const blogs = await prisma.blog.findMany({
+            where: {
+                userUserId: {
+                    in: followedUserIds
+                }
+            },
+            include: {
+                user: true,  // Optionally include user details who wrote the blog
+                comments: true // Optionally include comments on the blogs
+            }
+        });
+
+        res.json(blogs);
+    } catch (error) {
+        console.error("Error fetching blogs of followed users:", error);
+        res.status(500).send('An error occurred while fetching the blogs');
     }
 }
 
@@ -118,4 +153,4 @@ async function deleteBlog(req, res) {
     }
 }
 
-module.exports = { createBlog,getAllBlogs,getBlogById,getMyBlogs,updateBlog,deleteBlog }
+module.exports = { createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogsOfFollowedUsers,updateBlog,deleteBlog }
