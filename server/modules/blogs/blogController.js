@@ -30,9 +30,15 @@ async function getAllBlogs(req, res) {
                 comments:true,
                 createdAt:true,
                 likedBy:true,
-                user:true
+                user:true,
+                Images:{
+                    select:{
+                        url:true,
+                        imageId:true
+                    }
+                }
             }
-        });
+        })
         res.json(blogs);
     } catch (error) {
         logger.error("Error fetching blogs:", error);

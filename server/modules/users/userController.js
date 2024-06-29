@@ -69,7 +69,7 @@ async function myProfile(req, res) {
   try {
     const user = await prisma.user.findFirst({
       where: {
-        id: req.user.id
+        userId: req.user.userId
       },
       select:{
         username:true,
@@ -78,7 +78,7 @@ async function myProfile(req, res) {
         userId:true,
         createdAt:true,
         age:true,
-        Blog:true,
+        blogs:true,
         comments:true,
         likedBlogs:true,
         followers:true,
@@ -158,16 +158,16 @@ async function profilepic(req, res) {
 
     const user = await prisma.user.update({
       where: {
-        id: req.user.id
+        userId: req.user.userId
       },
       data: {
-        pfp: profilePicUrl
+        profileUrl: profilePicUrl
       }
     });
     logger.info("picture uploaded");
     return res.send("Profile picture uploaded and saved.");
   } catch (error) {
-    logger.error("Error uploading profile picture:", error);
+    logger.error(error);
     return res.status(400).send(error);
   }
 }

@@ -31,6 +31,7 @@ model Blog {
   userUserId String
   comments   Comment[]
   likedBy    BlogLike[]
+  Images     Images[]
 }
 
 model Comment {
@@ -62,4 +63,12 @@ model BlogLike {
   blogId    String
 
   @@unique([userId, blogId]) // Ensure a user can like a blog only once
+}
+
+model Images {
+  imageId    String   @id @default(uuid())
+  url        String
+  blog       Blog     @relation(fields: [blogBlogId], references: [blogId])
+  createdAt  DateTime @default(now())
+  blogBlogId String
 }

@@ -39,3 +39,6 @@ app.use('/blogLike',blogLikeRoutes)
 
 const followRoutes = require('./modules/follow/followRoute')
 app.use('/follow',followRoutes)
+
+const imageRoutes = require('./modules/images/imageRoutes')
+app.use('/image',imageRoutes)

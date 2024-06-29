@@ -12,6 +12,6 @@ router.get('/my',authenticateToken,myProfile)
 router.get('/user/:username',authenticateToken,user)
 router.get('/all',allUsers)
 router.delete('/delete',authenticateToken,deleteUser)
-router.post('/uploadpic',authenticateToken,uploadMiddleware.single('image'),profilepic)
+router.post('/uploadpic',uploadMiddleware.single('image'),profilepic)
 
 module.exports = router
