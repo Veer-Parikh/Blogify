@@ -3,17 +3,22 @@ const prisma = require('../../prisma');
 const cloudinary = require('cloudinary').v2;
 const jwt = require('jsonwebtoken');
 const logger = require('../../utils/logger');
+const { P } = require('pino');
 
 async function createUser(req, res) {
     try {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const profilePicUrl = result.secure_url;
       const { username,age,email,password } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
+      const ageInt = parseInt(age, 10);
       const user = await prisma.user.create({
         data: {
           username,
-          age,
+          age:ageInt,
           email,
           password: hashedPassword,
+          profileUrl: profilePicUrl
         },
       })
         .then((user) => {
@@ -145,6 +150,23 @@ async function user(req, res) {
   }
 }
 
+async function getUserBySearch(req,res) {
+  try {
+    const user = await prisma.user.findMany({
+      where:{
+        username:{
+          contains:req.params.username
+        }
+      }
+    });
+    res.send(user)
+    logger.info("Users found")
+  } catch (error) {
+    res.send(error)
+    logger.error(error)
+  }
+}
+ 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -193,4 +215,4 @@ async function deleteUser(req, res) {
   }
 }
 
-module.exports = { createUser,loginUser,myProfile,user,allUsers,profilepic,deleteUser,logoutUser }
+module.exports = { createUser,loginUser,myProfile,user,getUserBySearch,allUsers,profilepic,deleteUser,logoutUser }

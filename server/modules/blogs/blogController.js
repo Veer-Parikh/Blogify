@@ -1,3 +1,4 @@
+const { P } = require("pino");
 const prisma = require("../../prisma");
 const logger = require("../../utils/logger");
 
@@ -129,6 +130,43 @@ async function getBlogById(req, res) {
     }
 }
 
+async function getBlogBySearch(req,res){
+    try {
+        const searchWord = req.params.searchWord;
+        const blogs = await prisma.blog.findMany({
+            where:{
+                OR:[
+                    {
+                        tags:{
+                            hasSome:[searchWord],
+                            // mode:'insensitive'
+                        }
+                    },
+                    {
+                        text:{
+                            contains:searchWord,
+                            // mode:"insensitive"
+                        }
+                    },
+                    {
+                        user:{
+                            username:{
+                                contains:searchWord,
+                                // mode:"insensitive"
+                            }
+                        }
+                    }
+                ]
+            }
+        });
+        logger.info("Blogs found")
+        return res.send(blogs)
+    } catch (error){
+        logger.error(error)
+        res.send(error)
+    }
+}
+
 async function updateBlog(req, res) {
     try {
         const blogId = req.params.id;
@@ -159,4 +197,4 @@ async function deleteBlog(req, res) {
     }
 }
 
-module.exports = { createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogsOfFollowedUsers,updateBlog,deleteBlog }
+module.exports = { createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogsOfFollowedUsers,getBlogBySearch,updateBlog,deleteBlog }

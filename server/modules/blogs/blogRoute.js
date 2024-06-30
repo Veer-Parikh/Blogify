@@ -1,4 +1,4 @@
-const {createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogsOfFollowedUsers,updateBlog,deleteBlog} = require('./blogController')
+const {createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogsOfFollowedUsers,getBlogBySearch,updateBlog,deleteBlog} = require('./blogController')
 const express = require('express');
 const router = express.Router();
 const {authenticateToken} = require('../../middleware/auth');
@@ -11,5 +11,6 @@ router.get('/blog/:id',authenticateToken,getBlogById)
 router.get('/blogFollow',authenticateToken,getBlogsOfFollowedUsers)
 router.patch('/updateBlog/:id',authenticateToken,updateBlog)
 router.delete('/deleteBlog/:id',authenticateToken,deleteBlog)
+router.get('/search/:searchWord',authenticateToken,getBlogBySearch)
 
 module.exports = router
