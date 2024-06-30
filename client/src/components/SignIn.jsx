@@ -1,7 +1,7 @@
 // src/components/SignIn.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -45,7 +45,7 @@ const SignIn = () => {
 
   return (
     <div className='parent'>
-      <div className='signin'>
+      <div className='signup'>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px' }}>
           <h1>SignIn</h1>
           <label className='field'>Username</label>
@@ -64,7 +64,11 @@ const SignIn = () => {
             onChange={handleChange} 
             required 
           />
-          <button type="submit">Sign In</button>
+          <button style={{marginTop:"20px"}} type="submit">Sign In</button>
+          {/* <button style={{marginTop:"20px"}} type="">Don't have an account? Sign Up</button> */}
+          <Link to="/">
+          <button style={{marginTop:"20px",fontSize:"15px"}} type="">Don't have an account? Sign Up</button>
+          </Link>
         </form>
         <ToastContainer /> {/* ToastContainer for displaying notifications */}
       </div>

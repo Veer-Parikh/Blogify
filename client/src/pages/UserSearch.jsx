@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar'
 import axios from 'axios';
-import Navbar from '../components/Navbar';
 
-const Search = () => {
-    const [searchTerm, setSearchTerm] = useState(''); // State for the search term
+const UserSearch = () => {
+  const [searchTerm, setSearchTerm] = useState(''); // State for the search term
     const [userData, setUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(false); // State to manage loading
 
@@ -14,7 +14,7 @@ const Search = () => {
             // Add a delay to debounce the API call
             const delayDebounceFn = setTimeout(() => {
                 setIsLoading(true);
-                axios.get(`http://localhost:3000/blog/search/${searchTerm}`, {
+                axios.get(`http://localhost:3000/user/search/${searchTerm}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -32,36 +32,33 @@ const Search = () => {
             return () => clearTimeout(delayDebounceFn);
         }
     }, [searchTerm, token]); 
-
-    return (
-        <div>
-            <Navbar />
-            
-            <div className='searchbar'>
-                <input 
-                    type="text" 
-                    placeholder='Search for Blog or BlogTags'
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)} 
-                />
-            </div>
-
-            {isLoading ? (
+  return (
+    <>
+     <Navbar />
+     <div className='searchbar'>
+            <input 
+            type="text" 
+            placeholder='Search for User' 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            />
+    </div> 
+    {isLoading ? (
                 <div>Loading...</div> // Show loading state
             ) : (
                 userData && (
                     <div className='blog-results'>
                         {/* Render the search results */}
-                        {userData.map((blog) => (
-                            <div key={blog.id}>
-                                <h2>{blog.blogId}</h2>
+                        {userData.map((user) => (
+                            <div key={user.id}>
+                                <h2>{user.userId}</h2>
                             </div>
                         ))}
                     </div>
                 )
             )}
-        </div>
-    )
+    </>
+  )
 }
 
-export default Search;
+export default UserSearch

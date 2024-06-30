@@ -1,7 +1,7 @@
 // src/components/Signup.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -33,31 +33,24 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // If a profile photo is selected, upload it first
-    let uploadedPhotoUrl = '';
-    if (profilePhoto) {
-      const photoData = new FormData();
-      photoData.append('image', profilePhoto);
+    const age = parseInt(formData.age, 10);
 
-      try {
-        const response = await axios.post('http://localhost:3000/user/uploadpic', photoData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        uploadedPhotoUrl = response.data.secure_url;
-      } catch (error) {
-        toast.error('Failed to upload profile photo: ' + error.response.data.error);
-        return;
-      }
+    const userData = new FormData();
+    userData.append('username', formData.username);
+    userData.append('age', age);
+    userData.append('email', formData.email);
+    userData.append('password', formData.password);
+
+    // Append the profile photo if it exists
+    if (profilePhoto) {
+      userData.append('image', profilePhoto);
     }
 
-    // After photo upload, proceed with the signup
     try {
-      const response = await axios.post('http://localhost:3000/user/signup', {
-        ...formData,
-        age: parseInt(formData.age, 10), // Convert age to integer
-        profileUrl: uploadedPhotoUrl // Only include profileUrl if a photo was uploaded
+      const response = await axios.post('http://localhost:3000/user/signup', userData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
 
       toast.success('Signup successful! Welcome ' + response.data.username);
@@ -115,8 +108,12 @@ const SignUp = () => {
             onChange={handleFileChange} 
           />
           <button type="submit">Sign Up</button>
+          {/* <button type="submit" >Already have an account? Sign In</button> */}
+          <Link to="/login" style={{font:"20px",fontFamily:"sans-serif",marginTop:"10px"}}>
+          <button style={{fontSize: "15px"}}>Already have an account? Sign In</button>
+          </Link>
         </form>
-        <ToastContainer /> {/* ToastContainer for displaying notifications */}
+        <ToastContainer /> 
       </div>
     </div>
   );
