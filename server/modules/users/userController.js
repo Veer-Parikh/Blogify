@@ -171,6 +171,9 @@ async function getUserBySearch(req,res) {
         profileUrl:true,
         userId:true,
         username:true
+      },
+      orderBy:{
+        followers :{_count:'desc'}
       }
     });
     res.send(user)

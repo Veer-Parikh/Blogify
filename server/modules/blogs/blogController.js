@@ -40,7 +40,7 @@ async function getAllBlogs(req, res) {
                 }
             },
             orderBy:{
-                createdAt:"desc"
+                likedBy:{_count:"desc"}
             }
         })
         res.json(blogs);
@@ -73,6 +73,9 @@ async function getBlogsOfFollowedUsers(req, res) {
             include: {
                 user: true,  // Optionally include user details who wrote the blog
                 comments: true // Optionally include comments on the blogs
+            },
+            orderBy:{
+                createdAt:"desc"
             }
         });
 
