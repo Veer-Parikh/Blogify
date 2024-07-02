@@ -33,6 +33,7 @@ const SignIn = () => {
       // Assuming the response contains the access token
       const token = response.data;
       localStorage.setItem('accessToken', token);
+      localStorage.setItem('username', formData.username)
 
       toast.success('Login successful! Redirecting to dashboard...');
       setTimeout(() => {
