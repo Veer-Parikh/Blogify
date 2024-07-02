@@ -27,7 +27,7 @@ const Navbar = () => {
         navigate('/userSearch')
     }
     return (
-        <div>
+        <>
         <div className="navContainer">
             <div style={{display:"flex",alignItems:"center",gap:"20px"}}>
                 <img src={mask} style={{width:"65px"}}></img>
@@ -41,7 +41,7 @@ const Navbar = () => {
                 <button onClick={handleSignOut}>SignOut</button>
             </div>
         </div>
-        </div>
+        </>
     )
 }
 
