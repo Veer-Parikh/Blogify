@@ -157,6 +157,20 @@ async function getUserBySearch(req,res) {
         username:{
           contains:req.params.username
         }
+      },
+      select:{
+        _count:true,
+        age:true,
+        blogs:true,
+        comments:true,
+        createdAt:true,
+        email:true,
+        followers:true,
+        following:true,
+        likedBlogs:true,
+        profileUrl:true,
+        userId:true,
+        username:true
       }
     });
     res.send(user)

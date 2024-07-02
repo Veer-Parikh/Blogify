@@ -38,6 +38,9 @@ async function getAllBlogs(req, res) {
                         imageId:true
                     }
                 }
+            },
+            orderBy:{
+                createdAt:"desc"
             }
         })
         res.json(blogs);
@@ -82,9 +85,9 @@ async function getBlogsOfFollowedUsers(req, res) {
 
 async function getMyBlogs(req, res) {
     try {
-        const blogId = req.user.id;
+        const userId = req.user.userId;
         const blog = await prisma.blog.findMany({
-            where: { blogId },
+            where: { userUserId:userId },
             select:{
                 blogId:true,
                 text:true,
@@ -157,6 +160,18 @@ async function getBlogBySearch(req,res){
                         }
                     }
                 ]
+            },
+            select:{
+                _count:true,
+                blogId:true,
+                comments:true,
+                createdAt:true,
+                Images:true,
+                likedBy:true,
+                tags:true,
+                text:true,
+                user:true,
+                userUserId:true
             }
         });
         logger.info("Blogs found")
