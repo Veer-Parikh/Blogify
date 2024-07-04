@@ -4,6 +4,7 @@ import axios from 'axios';
 import defaultProfileImage from '../assets/blank.webp';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 const UserCard = ({ user }) => {
   const blogCount = user.blogs ? (Array.isArray(user.blogs) ? user.blogs.length : user.blogs) : 0;
@@ -80,19 +81,25 @@ const UserCard = ({ user }) => {
   const storedUsername = localStorage.getItem('username');
 
   // Conditionally render the follow button based on whether it's the same user
-  const showFollowButton = storedUsername !== user.username;
+  const showFollowButton = storedUsername !== user.username;  
+
+  const handleUser = () => {
+    localStorage.setItem('user',user.username)
+  }
 
   return (
-    <div className="user-card">
-      <div style={{display:'flex',alignItems:"center"}}>
-      <img src={profileImage} alt={user.username} className="user-card-image" />
-      <div className="user-card-info">
-        <h2>{user.username}</h2>
-        <p>Email: {user.email}</p>
-        <p>Number of Blogs: {blogCount}</p>
-        <p>Number of Followers: {followerCount}</p>
-      </div>
-      </div>
+    <div className="user-card" onClick={handleUser}>
+      <Link  to={`/user`} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <div style={{display:'flex',alignItems:"center"}}>
+          <img src={profileImage} alt={user.username} className="user-card-image" />
+          <div className="user-card-info">
+            <h2>{user.username}</h2>
+            <p>Email: {user.email}</p>
+            <p>Number of Blogs: {blogCount}</p>
+            <p>Number of Followers: {followerCount}</p>
+          </div>
+        </div>
+      </Link>
       <div>
       {showFollowButton && !isFollowing && (
         <button onClick={handleFollow} className="follow-button" disabled={loading}>

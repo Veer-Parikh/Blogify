@@ -135,7 +135,7 @@ async function user(req, res) {
         userId:true,
         createdAt:true,
         age:true,
-        Blog:true,
+        blogs:true,
         comments:true,
         likedBlogs:true,
         followers:true,
@@ -155,7 +155,8 @@ async function getUserBySearch(req,res) {
     const user = await prisma.user.findMany({
       where:{
         username:{
-          contains:req.params.username
+          contains:req.params.username,
+          mode:'insensitive'
         }
       },
       select:{

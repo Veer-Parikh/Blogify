@@ -18,6 +18,7 @@ const Home = () => {
       .then(response => setBlogs(response.data))
       .catch(error => logger.error('Error fetching blogs:', error));
   }, []);
+  console.log(blogs)
   return (
     <>
       <Navbar />

@@ -136,6 +136,31 @@ async function getBlogById(req, res) {
     }
 }
 
+async function getBlogById(req, res) {
+    try {
+        const username = req.params.username;
+        const blog = await prisma.blog.findMany({
+            where: { user:{username:username} },
+            select:{
+                blogId:true,
+                text:true,
+                comments:true,
+                createdAt:true,
+                likedBy:true,
+                user:true
+            }
+        });
+        if (!blog) {
+            res.send('Blog not found');
+        } else {
+            res.json(blog);
+        }
+    } catch (error) {
+        logger.error("Error fetching blog:", error);
+        res.send('An error occurred while fetching the blog');
+    }
+}
+
 async function getBlogBySearch(req,res){
     try {
         const searchWord = req.params.searchWord;
@@ -144,21 +169,20 @@ async function getBlogBySearch(req,res){
                 OR:[
                     {
                         tags:{
-                            hasSome:[searchWord],
-                            // mode:'insensitive'
+                            hasSome:[searchWord]
                         }
                     },
                     {
                         text:{
                             contains:searchWord,
-                            // mode:"insensitive"
+                            mode:"insensitive"
                         }
                     },
                     {
                         user:{
                             username:{
                                 contains:searchWord,
-                                // mode:"insensitive"
+                                mode:"insensitive"
                             }
                         }
                     }

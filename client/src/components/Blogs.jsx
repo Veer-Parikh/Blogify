@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const Blog = ({ blog }) => {
   const { text, tags, user, createdAt, Images, likedBy } = blog;
-
   const media = Images || []; // Assume Images is an array of objects with 'url' property
 
+  const username = user?.username || ""  
   return (
     <div className="blog">
       {media.length > 0 && (
@@ -38,9 +38,9 @@ const Blog = ({ blog }) => {
         <p>Likes: {likedBy ? likedBy.length : 0}</p>
       </div>
 
-      <div className="blog-header">
-        <p>By {user.username} on {new Date(createdAt).toLocaleDateString()}</p>
-      </div>
+      {username && <div className="blog-header">
+        <p>By {username} on {new Date(createdAt).toLocaleDateString()}</p>
+      </div>}
     </div>
   );
 };
