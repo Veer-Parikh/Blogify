@@ -6,7 +6,7 @@ async function createBlog(req, res) {
     try {
         const { text,tags } = req.body;
         userId = req.user.userId
-        const tagsArray = tags.split(' ').map(tag => tag.trim());
+        const tagsArray = tags ? tags.split(' ').map(tag => tag.trim()) : []
         const blog = await prisma.blog.create({
             data: {
                 text,
@@ -14,11 +14,12 @@ async function createBlog(req, res) {
                 tags: tagsArray
             }
         });
-        logger.info("Blog created successfully");
-        res.json(blog);
+
+        logger.info("Blog created:", blog);
+        res.status(201).json(blog); // Return the created blog with status 201 (Created)
     } catch (error) {
-        logger.error("Error creating blog:", error);
-        res.send('An error occurred while creating the blog');
+        logger.error(error);
+        res.status(500).send(error); // Handle errors appropriately
     }
 }
 
@@ -53,7 +54,7 @@ async function getAllBlogs(req, res) {
 async function getBlogsOfFollowedUsers(req, res) {
     try {
         const userId = req.user.userId; // ID of the current user, retrieved from the request's user object
-        
+
         // Step 1: Find the IDs of users that the current user is following
         const following = await prisma.follow.findMany({
             where: { followerId: userId },
@@ -66,16 +67,28 @@ async function getBlogsOfFollowedUsers(req, res) {
         // Step 2: Find blogs written by these users
         const blogs = await prisma.blog.findMany({
             where: {
-                userUserId: {
+                userId: { // Ensure this matches your schema's foreign key name
                     in: followedUserIds
                 }
             },
             include: {
-                user: true,  // Optionally include user details who wrote the blog
-                comments: true // Optionally include comments on the blogs
+                user: {
+                    select: {
+                        userId: true,
+                        username: true,
+                        profileUrl: true // Adjust the fields you actually need
+                    }
+                },
+                comments: {
+                    select: {
+                        commentId: true,
+                        text: true,
+                        createdAt: true
+                    }
+                }
             },
-            orderBy:{
-                createdAt:"desc"
+            orderBy: {
+                createdAt: "desc"
             }
         });
 
@@ -136,7 +149,7 @@ async function getBlogById(req, res) {
     }
 }
 
-async function getBlogById(req, res) {
+async function getBlogByUsername(req, res) {
     try {
         const username = req.params.username;
         const blog = await prisma.blog.findMany({
@@ -239,4 +252,4 @@ async function deleteBlog(req, res) {
     }
 }
 
-module.exports = { createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogsOfFollowedUsers,getBlogBySearch,updateBlog,deleteBlog }
+module.exports = { createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogByUsername,getBlogsOfFollowedUsers,getBlogBySearch,updateBlog,deleteBlog }

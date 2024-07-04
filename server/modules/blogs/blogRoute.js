@@ -1,4 +1,4 @@
-const {createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogsOfFollowedUsers,getBlogBySearch,updateBlog,deleteBlog} = require('./blogController')
+const {createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogsOfFollowedUsers,getBlogByUsername,getBlogBySearch,updateBlog,deleteBlog} = require('./blogController')
 const express = require('express');
 const router = express.Router();
 const {authenticateToken} = require('../../middleware/auth');
@@ -8,6 +8,7 @@ router.post('/createBlog',authenticateToken,createBlog)
 router.get('/getAll',getAllBlogs)
 router.get('/myBlogs',authenticateToken,getMyBlogs)
 router.get('/blog/:id',authenticateToken,getBlogById)
+router.get('/:username',authenticateToken,getBlogByUsername)
 router.get('/blogFollow',authenticateToken,getBlogsOfFollowedUsers)
 router.patch('/updateBlog/:id',authenticateToken,updateBlog)
 router.delete('/deleteBlog/:id',authenticateToken,deleteBlog)
