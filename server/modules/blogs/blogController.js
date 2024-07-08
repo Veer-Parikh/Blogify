@@ -54,41 +54,28 @@ async function getAllBlogs(req, res) {
 async function getBlogsOfFollowedUsers(req, res) {
     try {
         const userId = req.user.userId; // ID of the current user, retrieved from the request's user object
-
+        
         // Step 1: Find the IDs of users that the current user is following
         const following = await prisma.follow.findMany({
             where: { followerId: userId },
             select: { followedId: true }
         });
-
         // Extract followed user IDs
         const followedUserIds = following.map(follow => follow.followedId);
-
         // Step 2: Find blogs written by these users
         const blogs = await prisma.blog.findMany({
             where: {
-                userId: { // Ensure this matches your schema's foreign key name
+                userUserId: {
                     in: followedUserIds
                 }
             },
             include: {
-                user: {
-                    select: {
-                        userId: true,
-                        username: true,
-                        profileUrl: true // Adjust the fields you actually need
-                    }
-                },
-                comments: {
-                    select: {
-                        commentId: true,
-                        text: true,
-                        createdAt: true
-                    }
-                }
+                user: true,  // Optionally include user details who wrote the blog
+                comments: true, // Optionally include comments on the blogs
+                Images:true
             },
-            orderBy: {
-                createdAt: "desc"
+            orderBy:{
+                createdAt:"desc"
             }
         });
 
@@ -98,7 +85,6 @@ async function getBlogsOfFollowedUsers(req, res) {
         res.status(500).send('An error occurred while fetching the blogs');
     }
 }
-
 async function getMyBlogs(req, res) {
     try {
         const userId = req.user.userId;
@@ -110,7 +96,8 @@ async function getMyBlogs(req, res) {
                 comments:true,
                 createdAt:true,
                 likedBy:true,
-                user:true
+                user:true,
+                Images:true
             }
         });
         if (!blog) {
@@ -252,4 +239,35 @@ async function deleteBlog(req, res) {
     }
 }
 
-module.exports = { createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogByUsername,getBlogsOfFollowedUsers,getBlogBySearch,updateBlog,deleteBlog }
+const fetchFollowedUsersBlogs = async (userId) => {
+    try {
+      // Step 1: Get the list of users that the current user follows
+      const followedUsers = await prisma.follow.findMany({
+        where: { followerId: userId }, // followerId is the ID of the current user
+        select: { followingId: true }  // Get the IDs of the users being followed
+      });
+  
+      // Extract the IDs of the followed users
+      const followedUserIds = followedUsers.map(follow => follow.followingId);
+  
+      // Step 2: Fetch the blogs of the followed users
+      const blogs = await prisma.blog.findMany({
+        where: {
+          userUserId: { in: followedUserIds } // Blogs where the user ID is in the list of followed users
+        },
+        orderBy: {
+          createdAt: 'desc' // Order by creation date descending
+        },
+        include: {
+          user: true, // Include user details (optional, useful for displaying user info with the blog)
+        }
+      });
+  
+      return blogs;
+    } catch (error) {
+      console.error('Error fetching blogs from followed users:', error);
+      throw new Error('Could not fetch blogs');
+    }
+  };
+
+module.exports = { createBlog,getAllBlogs,getBlogById,getMyBlogs,getBlogByUsername,fetchFollowedUsersBlogs,getBlogsOfFollowedUsers,getBlogBySearch,updateBlog,deleteBlog }

@@ -108,7 +108,7 @@ async function allUsers(req, res) {
         userId:true,
         createdAt:true,
         age:true,
-        // Blog:true,
+        blogs:true,
         comments:true,
         likedBlogs:true,
         followers:true,
