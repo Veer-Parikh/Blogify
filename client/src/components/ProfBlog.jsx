@@ -15,7 +15,7 @@ const ProfBlog = () => {
     })
       .then(response => setBlogs(response.data))
       .catch(error => console.error('Error fetching blogs:', error));
-  }, []);
+  }, [blogs]);
   return (
     <div style={{display:"flex",justifyContent:"center",paddingTop:"40px"}}>
         <div className='container'>

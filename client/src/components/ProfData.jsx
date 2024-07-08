@@ -4,6 +4,7 @@ import blankProfileImage from '../assets/blank.webp';
 import Navbar from './Navbar';
 import Modal from './Modal';
 import BlogCreateForm from './BlogCreateForm';
+import { toast, ToastContainer } from 'react-toastify';
 
 const ProfData = () => {
     const [userData, setUserData] = useState(null);
@@ -32,28 +33,30 @@ const ProfData = () => {
         setIsModalOpen(false);
     };
 
-    const handleBlogSubmit = (blogData) => {
-        const token = localStorage.getItem('accessToken');
-        const formData = new FormData();
-        formData.append('text', blogData.text);
-        formData.append('tags', blogData.tags);
-        if (blogData.image) {
-            formData.append('image', blogData.image);
-        }
+    const handleBlogSubmit = () => {
+        // const token = localStorage.getItem('accessToken');
+        // const formData = new FormData();
+        // formData.append('text', blogData.text);
+        // formData.append('tags', blogData.tags);
+        // if (blogData.image) {
+        //     formData.append('image', blogData.image);
+        // }
 
-        axios.post('http://localhost:3000/blog/createBlog', formData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
-        .then(response => {
-            // Handle successful blog creation
-            console.log('Blog created:', response.data);
-            setIsModalOpen(false);
-        })
-        .catch(error => {
-            console.error("There was an error creating the blog!", error);
-        });
+        // axios.post('http://localhost:3000/blog/createBlog', formData, {
+        //     headers: {
+        //         Authorization: `Bearer ${token}`,
+        //     }
+        // })
+        // .then(response => {
+        //     // Handle successful blog creation
+        //     console.log('Blog created:', response.data);
+        //     setIsModalOpen(false);
+        // })
+        // .catch(error => {
+        //     console.error("There was an error creating the blog!", error);
+        // });
+        toast.success('Blog created successfully')
+
     };
 
     if (!userData) {
@@ -111,6 +114,7 @@ const ProfData = () => {
                 onCancel={handleCloseModal} 
             />
         </Modal>
+        <ToastContainer />
         </>
     );
 };

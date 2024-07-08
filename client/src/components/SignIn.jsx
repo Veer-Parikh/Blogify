@@ -36,9 +36,9 @@ const SignIn = () => {
       localStorage.setItem('username', formData.username)
 
       toast.success('Login successful! Redirecting to dashboard...');
-      setTimeout(() => {
+      // setTimeout(() => {
         navigate('/dashboard'); // Redirect to the dashboard or another page
-      }, 1000);
+      // }, 2000);
     } catch (error) {
       toast.error('Login failed: ' + (error.response?.data || error.message));
     }

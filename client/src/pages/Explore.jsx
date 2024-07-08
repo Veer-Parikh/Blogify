@@ -21,11 +21,14 @@ const Explore = () => {
   return (
     <div>
       <Navbar />
-      <div className="blogs" style={{paddingTop:"100px"}}>
+      <div className="homepage" style={{paddingTop:"100px",display:'flex',flexDirection:"column",alignItems:"center",width:"100%"}}>
+        <h1 style={{color:"white"}}>EXPLORE THE MOST LIKED BLOGS</h1>
+        <div className="blogs">
           {blogs.map(blog => (
             <Blog key={blog.blogId} blog={blog} />
           ))}
-      </div> 
+        </div>
+      </div>
     </div>
   )
 }

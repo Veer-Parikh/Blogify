@@ -53,7 +53,7 @@ const SignUp = () => {
         }
       });
 
-      toast.success('Signup successful! Welcome ' + response.data.username);
+      toast.success('Signup successful! Welcome ' + formData.username);
 
       // Redirect to login page after 2 seconds
       setTimeout(() => {

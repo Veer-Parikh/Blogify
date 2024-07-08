@@ -10,7 +10,7 @@ const Home = () => {
 
   useEffect(() => {
     // Fetch blog data from your API
-    axios.get('http://localhost:3000/blog/blogFollow',{
+    axios.get('http://localhost:3000/blog/blogs/blogFollow',{
       headers:{
         Authorization:`Bearer ${token}`
       }
