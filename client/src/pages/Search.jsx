@@ -11,6 +11,8 @@ const Search = () => {
     const [blogs, setBlogs] = useState([]);
 
     const token = localStorage.getItem('accessToken');
+    const currentUsername = localStorage.getItem('username');
+
 
     const handleLike = async (blogId) => {
         try {
@@ -67,7 +69,7 @@ const Search = () => {
 
             <div className="blogs">
                 {blogs.map(blog => (
-                    <Blog key={blog.blogId} blog={blog} onLike={handleLike} />
+                    <Blog key={blog.blogId} blog={blog} onLike={handleLike} visible={blog.user.username === currentUsername ? 'block' : 'none'} />
                 ))}
             </div> 
             <ToastContainer />

@@ -43,7 +43,7 @@ const Home = () => {
         <h1 style={{color:"white"}}>LATEST BLOGS</h1><h3 style={{color:"white"}}>OF PEOPLE YOU FOLLOW</h3>
         <div className="blogs">
           {blogs.map(blog => (
-            <Blog key={blog.blogId} blog={blog} onLike={handleLike} />
+            <Blog key={blog.blogId} blog={blog} onLike={handleLike} visible={"none"} />
           ))}
         </div>
       </div>
