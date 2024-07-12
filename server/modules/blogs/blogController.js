@@ -278,13 +278,18 @@ async function updateBlog(req, res) {
 async function deleteBlog(req, res) {
     try {
         const blogId = req.params.id;
+        await prisma.blogLike.deleteMany({
+            where: {
+              blogId: blogId,
+            },
+          });
         await prisma.blog.delete({
             where: { blogId }
         });
         logger.info("Blog deleted successfully");
         res.send('Blog deleted successfully');
     } catch (error) {
-        logger.error("Error deleting blog:", error);
+        logger.error(error);
         res.send('An error occurred while deleting the blog');
     }
 }

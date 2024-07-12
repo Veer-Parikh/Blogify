@@ -8,6 +8,6 @@ router.post('/createBlogLike/:blogId',createBlogLike)
 router.get('/getAll',getAllBlogLikes)
 router.get('/check/:blogId/:userId',checkBlogLike)
 router.get('/myBlogLikes',authenticateToken,getMyBlogLikes)
-router.delete('/deleteBlogLike/:blogId',deleteBlogLike)
+router.delete('/deleteBlogLike/:blogId/:userId',deleteBlogLike)
 
 module.exports = router

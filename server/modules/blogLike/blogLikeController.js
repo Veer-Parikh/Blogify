@@ -154,12 +154,16 @@ async function getMyBlogLikes(req, res) {
 async function deleteBlogLike(req, res) {
     try {
         await prisma.blogLike.delete({
-            where: { blogId:req.params.blogId,userId:req.user.userId }
+            where: { 
+              userId_blogId:{
+                blogId:req.params.blogId,userId:req.params.userId
+              }
+            }
         });
         logger.info("Blog Like deleted successfully");
         res.send('Blog Like deleted successfully');
     } catch (error) {
-        logger.error("Error deleting blog like:", error);
+        logger.error(error);
         res.send('An error occurred while deleting the blog like');
     }
 }
