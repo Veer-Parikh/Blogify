@@ -4,17 +4,17 @@ const logger = require("../../utils/logger");
 
 async function createBlog(req, res) {
     try {
-        const { text,tags } = req.body;
+        const { text,tags,title } = req.body;
         userId = req.user.userId
         const tagsArray = tags ? tags.split(' ').map(tag => tag.trim()) : []
         const blog = await prisma.blog.create({
             data: {
                 text,
                 userUserId: userId,
-                tags: tagsArray
+                tags: tagsArray,
+                title
             }
         });
-
         logger.info("Blog created:", blog);
         res.status(201).json(blog); // Return the created blog with status 201 (Created)
     } catch (error) {
@@ -23,31 +23,70 @@ async function createBlog(req, res) {
     }
 }
 
+// async function getAllBlogs(req, res) {
+//     try {
+//         const blogs = await prisma.blog.findMany({
+//             select:{
+//                 blogId:true,
+//                 text:true,
+//                 title:true,
+//                 comments:true,
+//                 createdAt:true,
+//                 likedBy:true,
+//                 user:true,
+//                 Images:{
+//                     select:{
+//                         url:true,
+//                         imageId:true
+//                     }
+//                 }
+//             },
+//             orderBy:{
+//                 likedBy:{_count:"desc"}
+//             }
+//         })
+//         res.json(blogs);
+//     } catch (error) {
+//         logger.error("Error fetching blogs:", error);
+//         res.send('An error occurred while fetching blogs');
+//     }
+// }
 async function getAllBlogs(req, res) {
     try {
+        const fiveDaysAgo = new Date();
+        fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+
         const blogs = await prisma.blog.findMany({
-            select:{
-                blogId:true,
-                text:true,
-                comments:true,
-                createdAt:true,
-                likedBy:true,
-                user:true,
-                Images:{
-                    select:{
-                        url:true,
-                        imageId:true
-                    }
-                }
+            where: {
+                createdAt: {
+                    gte: fiveDaysAgo,
+                },
             },
-            orderBy:{
-                likedBy:{_count:"desc"}
-            }
-        })
+            select: {
+                blogId: true,
+                text: true,
+                title: true,
+                comments: true,
+                createdAt: true,
+                likedBy: true,
+                user: true,
+                tags:true,
+                Images: {
+                    select: {
+                        url: true,
+                        imageId: true,
+                    },
+                },
+            },
+            orderBy: {
+                likedBy: { _count: "desc" },
+            },
+        });
+        
         res.json(blogs);
     } catch (error) {
         logger.error("Error fetching blogs:", error);
-        res.send('An error occurred while fetching blogs');
+        res.status(500).send('An error occurred while fetching blogs');
     }
 }
 
@@ -97,7 +136,13 @@ async function getMyBlogs(req, res) {
                 createdAt:true,
                 likedBy:true,
                 user:true,
+                tags:true,
+                title:true,
+                userUserId:true,
                 Images:true
+            },
+            orderBy:{
+                createdAt:"desc"
             }
         });
         if (!blog) {
@@ -118,6 +163,8 @@ async function getBlogById(req, res) {
             where: { blogId },
             select:{
                 blogId:true,
+                title:true,
+                tags:true,
                 text:true,
                 comments:true,
                 createdAt:true,
@@ -144,6 +191,8 @@ async function getBlogByUsername(req, res) {
             select:{
                 blogId:true,
                 text:true,
+                title:true,
+                tags:true,
                 comments:true,
                 createdAt:true,
                 likedBy:true,
@@ -197,6 +246,7 @@ async function getBlogBySearch(req,res){
                 likedBy:true,
                 tags:true,
                 text:true,
+                title:true,
                 user:true,
                 userUserId:true
             }

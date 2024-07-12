@@ -1,7 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["fullTextSearch","fullTextIndex"]
-
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -27,6 +26,7 @@ model User {
 model Blog {
   blogId     String     @id @default(uuid())
   text       String
+  title      String
   tags       String[]
   user       User       @relation(fields: [userUserId], references: [userId])
   createdAt  DateTime   @default(now())

@@ -1,23 +1,92 @@
 const prisma = require("../../prisma");
 const logger = require("../../utils/logger");
 
-async function createBlogLike(req, res) {
+const createBlogLike = async (req, res) => {
     try {
-        const { blogId } = req.body;
-        userId = req.user.userId
-        const blogLike = await prisma.blogLike.create({
-            data: {
-                blogId,
+      const { blogId } = req.params;
+      const userId = req.body.userId; // Assuming you get the userId from authenticated user
+  
+      if (!blogId) {
+        return res.status(400).json({ error: 'Blog ID is required' });
+      }
+  
+      // Check if the blog like already exists
+      const existingBlogLike = await prisma.blogLike.findUnique({
+        where: {
+          userId_blogId: {
+            userId:userId,
+            blogId,
+          },
+        },
+      });
+  
+      if (existingBlogLike) {
+        return res.status(400).json({ error: 'User has already liked this blog' });
+      }
+  
+      // Create new blog like
+      const blogLike = await prisma.blogLike.create({
+        data: {
+          blogId,
+          userId:userId,
+        },
+      });
+      logger.info("blog like created successfully")
+      res.status(201).json(blogLike);
+    } catch (error) {
+      console.error('Error creating blog like:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
+// async function checkBlogLike(req,res) {
+//     try{
+//         const currentUserId = req.body.userId;
+//         const blogId = req.params;
+
+//         const like = prisma.blogLike.findFirst({
+//             where:{
+//                 blogId:blogId,
+//                 userId:currentUserId
+//             },
+//             include:{
+//                 user:true,
+//                 blog:true
+//             }
+//         })
+
+//         if(like){
+//             logger.info({blogId,isLiked:true})
+//             return res.status(200).json({isLiked:true})
+//         } else {
+//             logger.error(like)
+//             return res.status(200).json({isLiked:false})
+//         }
+//     } catch(error){
+//         logger.error(error)
+//         res.send(error)
+//     }
+// }
+
+const checkBlogLike = async (req, res) => {
+    try {
+    //   const userId = req.body.userId; // Assuming the userId is available in the request object after authentication
+      const { blogId,userId } = req.params;
+  
+      const like = await prisma.blogLike.findUnique({
+        where: {
+            userId_blogId:{
+                blogId: blogId,
                 userId:userId
             }
-        });
-        logger.info("Blog Like created successfully");
-        res.json(blogLike);
+        }
+      });
+      return res.status(200).json({ isLiked: !!like }); // Return true if a like is found, false otherwise
     } catch (error) {
-        logger.error("Error creating blog like:", error);
-        res.send('An error occurred while creating the blog like');
+      logger.error(error);
+      res.status(500).json({ error});
     }
-}
+};  
 
 async function getAllBlogLikes(req, res) {
     try {
@@ -85,7 +154,7 @@ async function getMyBlogLikes(req, res) {
 async function deleteBlogLike(req, res) {
     try {
         await prisma.blogLike.delete({
-            where: { likeId:req.params.likeId }
+            where: { blogId:req.params.blogId,userId:req.user.userId }
         });
         logger.info("Blog Like deleted successfully");
         res.send('Blog Like deleted successfully');
@@ -95,4 +164,4 @@ async function deleteBlogLike(req, res) {
     }
 }
 
-module.exports = { createBlogLike,getAllBlogLikes,getMyBlogLikes,deleteBlogLike }
+module.exports = { createBlogLike,getAllBlogLikes,getMyBlogLikes,checkBlogLike,deleteBlogLike }

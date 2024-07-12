@@ -83,7 +83,11 @@ async function myProfile(req, res) {
         userId:true,
         createdAt:true,
         age:true,
-        blogs:true,
+        blogs:{
+          orderBy:{
+            createdAt:"desc"
+          }
+        },
         comments:true,
         likedBlogs:true,
         followers:true,
