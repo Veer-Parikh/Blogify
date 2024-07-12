@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Blog from '../components/Blogs.jsx'
+import { ToastContainer } from 'react-toastify';
 
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState(''); // State for the search term
@@ -10,6 +11,22 @@ const Search = () => {
     const [blogs, setBlogs] = useState([]);
 
     const token = localStorage.getItem('accessToken');
+
+    const handleLike = async (blogId) => {
+        try {
+          axios.post(`http://localhost:3000/blogLike/createBlogLike/${blogId}`,{
+            headers:{
+              Authorization:`Bearer ${token}`
+            }
+          });
+          // Update the blogs state to reflect the like
+          setBlogs(prevBlogs => prevBlogs.map(blog => 
+            blog.blogId === blogId ? { ...blog, likedBy: [...blog.likedBy, { userId: 'currentUserId' }] } : blog
+          ));
+        } catch (error) {
+          console.error('Error liking blog:', error);
+        }
+      };
 
     useEffect(() => {
         if (searchTerm && token) { // Ensure token exists before making the request
@@ -50,9 +67,10 @@ const Search = () => {
 
             <div className="blogs">
                 {blogs.map(blog => (
-                    <Blog key={blog.blogId} blog={blog} />
+                    <Blog key={blog.blogId} blog={blog} onLike={handleLike} />
                 ))}
             </div> 
+            <ToastContainer />
         </div>
     )
 }

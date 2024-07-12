@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import input from "../assets/input.png"
 
 const BlogCreateForm = ({ onSubmit, onCancel }) => {
     const [text, setText] = useState('');
+    const [title, setTitle] = useState('');
     const [tags, setTags] = useState('');
     const [images, setImages] = useState([]); // Array to hold selected images
     const [blogId, setBlogId] = useState(null); // Store the blogId of the created blog
@@ -17,7 +19,7 @@ const BlogCreateForm = ({ onSubmit, onCancel }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const blogData = { text, tags };
+        const blogData = { text, tags, title };
 
         try {
             // Create the blog
@@ -86,6 +88,16 @@ const BlogCreateForm = ({ onSubmit, onCancel }) => {
     return (
         <form onSubmit={handleSubmit} className='form'>
             <label>
+                Title:<br />
+                <input 
+                    type='text'
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                    placeholder="Write your title here..."
+                />
+            </label><br />
+            <label>
                 Text:<br />
                 <textarea
                     value={text}
@@ -109,23 +121,24 @@ const BlogCreateForm = ({ onSubmit, onCancel }) => {
                 <button style={{ backgroundColor: "pink" }} type="button" onClick={onCancel}>Cancel</button>
             </div>
             {blogId && (
-                <>
-                    <label>
-                        Upload Images:<br />
-                        <input
-                            type="file"
-                            multiple
-                            onChange={handleImageChange}
-                        />
-                    </label><br />
+                <div className="upload-container">
+                    <input
+                        type="file"
+                        id='file'
+                        multiple
+                        onChange={handleImageChange}
+                    />
+                    <label htmlFor='file'>
+                        <img src={input} alt="Add Avatar" />
+                        <span>Add images/pdf</span>
+                    </label>
                     <button
                         type="button"
                         onClick={handleImageUpload}
-                        style={{ backgroundColor: "lightblue" }}
                     >
-                        Upload Images
+                        Upload
                     </button>
-                </>
+                </div>
             )}
             <ToastContainer />
         </form>

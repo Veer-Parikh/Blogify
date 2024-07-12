@@ -9,9 +9,9 @@ import { toast, ToastContainer } from 'react-toastify';
 const ProfData = () => {
     const [userData, setUserData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
+
         axios.get('http://localhost:3000/user/my', {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -58,6 +58,10 @@ const ProfData = () => {
         toast.success('Blog created successfully')
 
     };
+
+    setTimeout(()=>{
+        localStorage.setItem("userId",userData.userId)
+    },2000)
 
     if (!userData) {
         return <h3>Loading...</h3>;

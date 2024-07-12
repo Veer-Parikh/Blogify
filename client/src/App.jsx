@@ -11,6 +11,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import UserProfile from './pages/UserProfile';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
           />
         </Routes>
       </Router>
+      <ToastContainer />
     </AuthProvider>
   );
 }

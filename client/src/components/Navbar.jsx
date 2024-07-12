@@ -51,7 +51,10 @@ const Navbar = () => {
                 console.error('There was an error fetching the user data!', error);
             });
         }
+    // localStorage.setItem("userId",userData.userId)
+
     }, [token]);
+
 
     // Render the navbar content conditionally based on userData
     return (

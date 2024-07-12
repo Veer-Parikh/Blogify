@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Blog from '../components/Blogs.jsx'
+import { Toast } from 'bootstrap';
+import { ToastContainer } from 'react-toastify';
 
 const ProfBlog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -26,6 +28,7 @@ const ProfBlog = () => {
           ))}
         </div>  
         </div>
+      <ToastContainer />
     </div>
   )
 }
