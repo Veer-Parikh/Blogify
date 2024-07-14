@@ -12,6 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import UserProfile from './pages/UserProfile';
 import { ToastContainer } from 'react-toastify';
+import BlogPage from './pages/BlogPage';
 
 function App() {
   return (
@@ -58,6 +59,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/blog/:blogId"
+            element={
+              <ProtectedRoute>
+                <BlogPage />
               </ProtectedRoute>
             }
           />

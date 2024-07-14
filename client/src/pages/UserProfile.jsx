@@ -83,7 +83,7 @@ const UserProfile = () => {
           <div className="blogs">
             {userData.blogs?.length > 0 ? (
               userData.blogs.map(blog => (
-                <Blog key={blog.blogId} blog={blog} />
+                <Blog key={blog.blogId} blog={blog} visible={"none"} />
               ))
             ) : (
               <p>No blogs available.</p>

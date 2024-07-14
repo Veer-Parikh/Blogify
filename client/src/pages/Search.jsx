@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Blog from '../components/Blogs.jsx'
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Search = () => {
     const [searchTerm, setSearchTerm] = useState(''); // State for the search term
@@ -54,6 +55,11 @@ const Search = () => {
         }
     }, [searchTerm, token]); 
 
+    const handleDelete = (blogId) => {
+        setBlogs(blogs.filter(blog => blog.blogId !== blogId));
+        toast.success('Blog deleted successfully.');
+      };
+
     return (
         <div>
             <Navbar />
@@ -69,7 +75,7 @@ const Search = () => {
 
             <div className="blogs">
                 {blogs.map(blog => (
-                    <Blog key={blog.blogId} blog={blog} onLike={handleLike} visible={blog.user.username === currentUsername ? 'block' : 'none'} />
+                    <Blog key={blog.blogId} blog={blog} onDelete={handleDelete} onLike={handleLike} visible={blog.user.username === currentUsername ? 'block' : 'none'} />
                 ))}
             </div> 
             <ToastContainer />
