@@ -130,22 +130,26 @@ async function allUsers(req, res) {
 async function user(req, res) {
   const { username } = req.params;
   try {
-    const user = await prisma.user.findFirst({ 
+    const user = await prisma.user.findFirst({
       where: { username: username },
-      select:{
-        username:true,
-        email:true,
-        profileUrl:true,
-        userId:true,
-        createdAt:true,
-        age:true,
-        blogs:true,
-        comments:true,
-        likedBlogs:true,
-        followers:true,
-        following:true   
-      }
-    })
+      select: {
+        username: true,
+        email: true,
+        profileUrl: true,
+        userId: true,
+        createdAt: true,
+        age: true,
+        blogs: {
+          include: {
+            likedBy:true
+          },
+        },
+        comments: true,
+        likedBlogs: true,
+        followers: true,
+        following: true,
+      },
+    });
     logger.info("User found");
     res.send(user);
   } catch (err) {
@@ -154,38 +158,77 @@ async function user(req, res) {
   }
 }
 
-async function getUserBySearch(req,res) {
+// async function getUserBySearch(req,res) {
+//   try {
+//     const user = await prisma.user.findMany({
+//       where:{
+//         username:{
+//           contains:req.params.username,
+//           mode:'insensitive'
+//         }
+//       },
+//       select:{
+//         _count:true,
+//         age:true,
+//         blogs:true,
+//         comments:true,
+//         createdAt:true,
+//         email:true,
+//         followers:true,
+//         following:true,
+//         likedBlogs:true,
+//         profileUrl:true,
+//         userId:true,
+//         username:true
+//       },
+//       orderBy:{
+//         followers :{_count:'desc'}
+//       }
+//     });
+//     res.send(user)
+//     logger.info("Users found")
+//   } catch (error) {
+//     res.send(error)
+//     logger.error(error)
+//   }
+// }
+
+async function getUserBySearch(req, res) {
   try {
-    const user = await prisma.user.findMany({
-      where:{
-        username:{
-          contains:req.params.username,
-          mode:'insensitive'
+    const username = req.params.username;
+    const users = await prisma.$queryRaw`
+      SELECT "userId", "username", "email", "profileUrl", "createdAt"
+      FROM "User"
+      WHERE "username" % ${username}
+      ORDER BY similarity("username", ${username}) DESC;
+    `;
+    
+    const userWithDetails = await Promise.all(users.map(async (user) => {
+      const userDetails = await prisma.user.findUnique({
+        where: { userId: user.userId },
+        select: {
+          _count: true,
+          age: true,
+          blogs: true,
+          comments: true,
+          createdAt: true,
+          email: true,
+          followers: true,
+          following: true,
+          likedBlogs: true,
+          profileUrl: true,
+          userId: true,
+          username: true
         }
-      },
-      select:{
-        _count:true,
-        age:true,
-        blogs:true,
-        comments:true,
-        createdAt:true,
-        email:true,
-        followers:true,
-        following:true,
-        likedBlogs:true,
-        profileUrl:true,
-        userId:true,
-        username:true
-      },
-      orderBy:{
-        followers :{_count:'desc'}
-      }
-    });
-    res.send(user)
-    logger.info("Users found")
+      });
+      return userDetails;
+    }));
+
+    res.send(userWithDetails);
+    logger.info("Users found");
   } catch (error) {
-    res.send(error)
-    logger.error(error)
+    res.status(500).send(error);
+    logger.error(error);
   }
 }
  

@@ -234,6 +234,12 @@ async function getBlogBySearch(req,res){
                                 mode:"insensitive"
                             }
                         }
+                    },
+                    {
+                        title:{
+                            contains:searchWord,
+                            mode:"insensitive"
+                        }
                     }
                 ]
             },
