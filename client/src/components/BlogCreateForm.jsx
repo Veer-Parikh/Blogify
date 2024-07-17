@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { //toast, //toastContainer } from 'react-//toastify';
+// import 'react-//toastify/dist/React//toastify.css';
 import input from "../assets/input.png"
 
 const BlogCreateForm = ({ onSubmit, onCancel }) => {
@@ -35,22 +35,22 @@ const BlogCreateForm = ({ onSubmit, onCancel }) => {
                 onSubmit();
                 // onCancel();
             }, 1000);
-            toast.success('Blog created successfully! You can now upload images.');
+            // toast.success('Blog created successfully! You can now upload images.');
 
         } catch (error) {
             console.error('Error creating blog:', error);
-            toast.error('Error creating blog');
+            // toast.error('Error creating blog');
         }
     };
 
     const handleImageUpload = async () => {
         if (!blogId) {
-            toast.error('Create a blog first before uploading images.');
+            // toast.error('Create a blog first before uploading images.');
             return;
         }
     
         if (images.length === 0) {
-            toast.error('Please select images to upload.');
+            // toast.error('Please select images to upload.');
             return;
         }
     
@@ -72,7 +72,7 @@ const BlogCreateForm = ({ onSubmit, onCancel }) => {
             });
     
             console.log('Images uploaded successfully');
-            toast.success('Images uploaded successfully!');
+            //toast.success('Images uploaded successfully!');
             setTimeout(()=>{
                 onCancel();
             },3000)
@@ -80,7 +80,7 @@ const BlogCreateForm = ({ onSubmit, onCancel }) => {
     
         } catch (error) {
             console.error('Error uploading images:', error);
-            toast.error('Error uploading images');
+            //toast.error('Error uploading images');
         }
     };
     
@@ -140,7 +140,7 @@ const BlogCreateForm = ({ onSubmit, onCancel }) => {
                     </button>
                 </div>
             )}
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </form>
     );
 };

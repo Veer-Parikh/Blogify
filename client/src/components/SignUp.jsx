@@ -53,14 +53,14 @@ const SignUp = () => {
         }
       });
 
-      toast.success('Signup successful! Welcome ' + formData.username);
+      //toast.success('Signup successful! Welcome ' + formData.username);
 
       // Redirect to login page after 2 seconds
       setTimeout(() => {
         navigate('/login');
       }, 2000);
     } catch (error) {
-      toast.error('Signup failed: ' + (error.response.data.error || error.message));
+      //toast.error('Signup failed: ' + (error.response.data.error || error.message));
     }
   };
 
@@ -113,7 +113,7 @@ const SignUp = () => {
           <button style={{fontSize: "15px"}}>Already have an account? Sign In</button>
           </Link>
         </form>
-        <ToastContainer /> 
+        {/* <ToastContainer />  */}
       </div>
     </div>
   );

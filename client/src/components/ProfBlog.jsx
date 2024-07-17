@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Blog from '../components/Blogs';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Snackbar, Alert } from '@mui/material';
 
 const ProfBlog = () => {
   const [blogs, setBlogs] = useState([]);
+  const [snackbar, setSnackbar] = useState({ open: false, severity: '', message: '' });
   const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const ProfBlog = () => {
         setBlogs(response.data);
       } catch (error) {
         console.error('Error fetching blogs:', error);
-        toast.error('Error fetching blogs.');
+        setSnackbar({ open: true, severity: 'error', message: 'Error fetching blogs.' });
       }
     };
 
@@ -28,7 +28,14 @@ const ProfBlog = () => {
 
   const handleDelete = (blogId) => {
     setBlogs(blogs.filter(blog => blog.blogId !== blogId));
-    toast.success('Blog deleted successfully.');
+    setSnackbar({ open: true, severity: 'success', message: 'Blog deleted successfully.' });
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbar({ ...snackbar, open: false });
   };
 
   return (
@@ -41,12 +48,18 @@ const ProfBlog = () => {
           ))}
         </div>
       </div>
-      <ToastContainer />
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
 
 export default ProfBlog;
+
+
 
 
 // import React, { useEffect, useState } from 'react'

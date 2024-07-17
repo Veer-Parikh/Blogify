@@ -57,7 +57,7 @@ const Search = () => {
 
     const handleDelete = (blogId) => {
         setBlogs(blogs.filter(blog => blog.blogId !== blogId));
-        toast.success('Blog deleted successfully.');
+        //toast.success('Blog deleted successfully.');
       };
 
     return (
@@ -78,7 +78,7 @@ const Search = () => {
                     <Blog key={blog.blogId} blog={blog} onDelete={handleDelete} onLike={handleLike} visible={blog.user.username === currentUsername ? 'block' : 'none'} />
                 ))}
             </div> 
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </div>
     )
 }

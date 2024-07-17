@@ -40,7 +40,7 @@ const SignIn = () => {
         navigate('/dashboard'); // Redirect to the dashboard or another page
       // }, 2000);
     } catch (error) {
-      toast.error('Login failed: ' + (error.response?.data || error.message));
+      //toast.error('Login failed: ' + (error.response?.data || error.message));
     }
   };
 
@@ -71,7 +71,7 @@ const SignIn = () => {
           <button style={{marginTop:"20px",fontSize:"15px"}} type="">Don't have an account? Sign Up</button>
           </Link>
         </form>
-        <ToastContainer /> {/* ToastContainer for displaying notifications */}
+        {/* <ToastContainer /> */}
       </div>
     </div>
   );

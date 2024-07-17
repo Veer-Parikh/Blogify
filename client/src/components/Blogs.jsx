@@ -6,6 +6,7 @@ import placeholder from "../assets/placeholder.jpg";
 import likeIcon from "../assets/like.png";
 import unlikeIcon from "../assets/unlike.png";
 import { ToastContainer,toast } from 'react-toastify';
+import Alert from "@mui/material/Alert"
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 
@@ -131,7 +132,7 @@ const Blog = ({ blog, onDelete, visible }) => {
         <h2>{title}</h2>
         {username && <p>By {username} {timeAgo}</p>}
       </div>
-
+      {/* <Alert severity="success">This is a success Alert.</Alert> */}
       <div className="blog-media">
         {firstImage.endsWith('.pdf') ? (
           <iframe src={firstImage} title="Blog PDF" className="blog-pdf" />

@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Modal from './Modal';
 import BlogCreateForm from './BlogCreateForm';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProfData = () => {
     const [userData, setUserData] = useState(null);
@@ -55,7 +56,7 @@ const ProfData = () => {
         // .catch(error => {
         //     console.error("There was an error creating the blog!", error);
         // });
-        toast.success('Blog created successfully')
+        //toast.success('Blog created successfully')
 
     };
 
@@ -118,7 +119,7 @@ const ProfData = () => {
                 onCancel={handleCloseModal} 
             />
         </Modal>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
         </>
     );
 };

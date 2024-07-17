@@ -65,13 +65,13 @@ const UserCard = ({ user }) => {
       if (response.status === 200 || response.status === 201) {
         setIsFollowing(true);
         setFollowerCount(followerCount + 1);
-        toast.success(`You are now following ${user.username}`);
+        //toast.success(`You are now following ${user.username}`);
       } else {
         throw new Error('Failed to follow user');
       }
     } catch (error) {
       console.error('Error following user:', error);
-      toast.error('Error following user. Please try again.');
+      //toast.error('Error following user. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,7 @@ const UserCard = ({ user }) => {
         </button>
       )}
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

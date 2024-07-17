@@ -73,6 +73,7 @@ const Navbar = () => {
                             src={userData.profileUrl || blankProfileImage} 
                             alt="Profile" 
                             style={{ width: '45px',height:"50px", borderRadius: '50%' }} 
+                            onClick={handleDashboard}
                         />
                         <img 
                             onClick={handleUserSearch} 
