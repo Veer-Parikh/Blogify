@@ -111,7 +111,8 @@ async function getBlogsOfFollowedUsers(req, res) {
             include: {
                 user: true,  // Optionally include user details who wrote the blog
                 comments: true, // Optionally include comments on the blogs
-                Images:true
+                Images:true,
+                likedBy:true
             },
             orderBy:{
                 createdAt:"desc"

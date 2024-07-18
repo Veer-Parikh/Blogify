@@ -5,34 +5,66 @@ const jwt = require('jsonwebtoken');
 const logger = require('../../utils/logger');
 const { P } = require('pino');
 
+// async function createUser(req, res) {
+//     try {
+//       const result = await cloudinary.uploader.upload(req.file.path);
+//       const profilePicUrl = result.secure_url;
+//       const { username,age,email,password } = req.body;
+//       const hashedPassword = await bcrypt.hash(password, 10);
+//       const ageInt = parseInt(age, 10);
+//       const user = await prisma.user.create({
+//         data: {
+//           username,
+//           age:ageInt,
+//           email,
+//           password: hashedPassword,
+//           profileUrl: profilePicUrl
+//         },
+//       })
+//         .then((user) => {
+//           logger.info("User saved successfully");
+//         })
+//         .catch((err) => {
+//           logger.fatal(err);
+//         });
+//       res.send(user);
+//     } catch (error) {
+//       logger.error(error);
+//       res.send(error);
+//     }
+// }
+
 async function createUser(req, res) {
-    try {
+  try {
+    let profilePicUrl = null;
+    
+    if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path);
-      const profilePicUrl = result.secure_url;
-      const { username,age,email,password } = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const ageInt = parseInt(age, 10);
-      const user = await prisma.user.create({
-        data: {
-          username,
-          age:ageInt,
-          email,
-          password: hashedPassword,
-          profileUrl: profilePicUrl
-        },
-      })
-        .then((user) => {
-          logger.info("User saved successfully");
-        })
-        .catch((err) => {
-          logger.fatal(err);
-        });
-      res.send(user);
-    } catch (error) {
-      logger.error(error);
-      res.send(error);
+      profilePicUrl = result.secure_url;
     }
+
+    const { username, age, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const ageInt = parseInt(age, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        username,
+        age: ageInt,
+        email,
+        password: hashedPassword,
+        profileUrl: profilePicUrl
+      },
+    });
+
+    logger.info("User saved successfully");
+    res.send(user);
+  } catch (error) {
+    logger.error(error);
+    res.status(500).send(error.message);
+  }
 }
+
 
 async function loginUser(req, res) {
   try {
