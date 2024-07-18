@@ -24,7 +24,7 @@ const ProfBlog = () => {
     };
 
     fetchBlogs();
-  }, [token]);
+  }, [token,blogs]);
 
   const handleDelete = (blogId) => {
     setBlogs(blogs.filter(blog => blog.blogId !== blogId));
