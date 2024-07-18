@@ -287,9 +287,14 @@ async function deleteBlog(req, res) {
         const blogId = req.params.id;
         await prisma.blogLike.deleteMany({
             where: {
-              blogId: blogId,
+              blog:{blogId:blogId},
             },
-          });
+        });
+        await prisma.images.deleteMany({
+            where: {
+                blog:{blogId:blogId},
+            },
+        })
         await prisma.blog.delete({
             where: { blogId }
         });

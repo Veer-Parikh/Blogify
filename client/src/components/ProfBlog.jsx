@@ -22,8 +22,9 @@ const ProfBlog = () => {
         setSnackbar({ open: true, severity: 'error', message: 'Error fetching blogs.' });
       }
     };
-
-    fetchBlogs();
+    setTimeout(()=>{
+      fetchBlogs();
+    },2000)
   }, [token,blogs]);
 
   const handleDelete = (blogId) => {
