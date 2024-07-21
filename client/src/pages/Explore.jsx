@@ -33,6 +33,10 @@ const Explore = () => {
       console.error('Error liking blog:', error);
     }
   };
+  const handleDelete = (blogId) => {
+    setBlogs(blogs.filter(blog => blog.blogId !== blogId));
+    setSnackbar({ open: true, severity: 'success', message: 'Blog deleted successfully.' });
+  };
 
   useEffect(() => {
     // Fetch blog data from your API
@@ -53,7 +57,7 @@ const Explore = () => {
         <h1 style={{ color: 'white' }}>EXPLORE THE RECENT MOST LIKED BLOGS</h1>
         <div className="blogs">
           {blogs.map((blog) => (
-            <Blog key={blog.blogId} blog={blog} visible={blog.user.username === currentUsername ? 'block' : 'none'} />
+            <Blog key={blog.blogId} blog={blog} visible={blog.user.username === currentUsername ? 'block' : 'none'} onDelete={handleDelete} />
           ))}
         </div>
       </div>
