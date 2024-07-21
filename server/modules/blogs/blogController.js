@@ -66,7 +66,12 @@ async function getAllBlogs(req, res) {
                 blogId: true,
                 text: true,
                 title: true,
-                comments: true,
+                comments: {
+                    orderBy:{createdAt:"desc"},
+                    include:{
+                        user:true
+                    }
+                },
                 createdAt: true,
                 likedBy: true,
                 user: true,
@@ -110,7 +115,12 @@ async function getBlogsOfFollowedUsers(req, res) {
             },
             include: {
                 user: true,  // Optionally include user details who wrote the blog
-                comments: true, // Optionally include comments on the blogs
+                comments: {
+                    orderBy:{createdAt:"desc"},
+                    include:{
+                        user:true
+                    }
+                }, // Optionally include comments on the blogs
                 Images:true,
                 likedBy:true
             },
@@ -133,7 +143,9 @@ async function getMyBlogs(req, res) {
             select:{
                 blogId:true,
                 text:true,
-                comments:true,
+                comments: {
+                    orderBy:{createdAt:"desc"}
+                },
                 createdAt:true,
                 likedBy:true,
                 user:true,
@@ -167,10 +179,16 @@ async function getBlogById(req, res) {
                 title:true,
                 tags:true,
                 text:true,
-                comments:true,
+                comments: {
+                    orderBy:{createdAt:"desc"},
+                    include:{
+                        user:true
+                    }
+                },
                 createdAt:true,
                 likedBy:true,
-                user:true
+                user:true,
+                Images:true
             }
         });
         if (!blog) {
@@ -247,7 +265,9 @@ async function getBlogBySearch(req,res){
             select:{
                 _count:true,
                 blogId:true,
-                comments:true,
+                comments: {
+                    orderBy:{createdAt:"desc"}
+                },
                 createdAt:true,
                 Images:true,
                 likedBy:true,
