@@ -108,7 +108,7 @@ async function deleteComment(req, res) {
     try {
         const commentId = req.params.id;
         await prisma.comment.delete({
-            where: { blogId: commentId }
+            where: { commentId: commentId }
         });
         logger.info("Comment deleted successfully");
         res.send('Comment deleted successfully');

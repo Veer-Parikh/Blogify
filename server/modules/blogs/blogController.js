@@ -144,15 +144,15 @@ async function getMyBlogs(req, res) {
                 blogId:true,
                 text:true,
                 comments: {
-                    orderBy:{createdAt:"desc"}
+                    orderBy:{createdAt:"desc"},
+                    include:{user:true}
                 },
                 createdAt:true,
                 likedBy:true,
-                user:true,
                 tags:true,
                 title:true,
                 userUserId:true,
-                Images:true
+                Images:true,
             },
             orderBy:{
                 createdAt:"desc"
@@ -212,7 +212,10 @@ async function getBlogByUsername(req, res) {
                 text:true,
                 title:true,
                 tags:true,
-                comments:true,
+                comments: {
+                    orderBy:{createdAt:"desc"},
+                    include:{user:true}
+                },
                 createdAt:true,
                 likedBy:true,
                 user:true
@@ -266,7 +269,8 @@ async function getBlogBySearch(req,res){
                 _count:true,
                 blogId:true,
                 comments: {
-                    orderBy:{createdAt:"desc"}
+                    orderBy:{createdAt:"desc"},
+                    include:{user:true}
                 },
                 createdAt:true,
                 Images:true,
