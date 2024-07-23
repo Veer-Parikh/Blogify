@@ -22,6 +22,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 1000;
     button{
         padding:15px 40px;
         margin-right: 40px;
@@ -173,7 +174,12 @@ h1{
     margin: 5px 0 0;
     color: #777;
 }
-  
+
+.blog-carousel {
+    z-index: 0; /* Lower z-index to ensure it stays behind the navbar */
+    position: relative; /* Ensure the z-index is applied */
+  }
+
 .blog-media {
     margin-bottom: 15px;
 }
