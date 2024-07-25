@@ -68,39 +68,39 @@ Welcome to the Blog Application! This full-stack application allows users to cre
 ### User Interface
 
 <div>
-  <img src="https://github.com/user-attachments/assets/fe2a3123-0d19-4245-bfa4-92044d9f57d9" width="45%" />
-  <img src="https://github.com/user-attachments/assets/1efe31d1-2a55-4975-b86b-ac82a38e1b36" width="45%" />
+  <img src="https://github.com/user-attachments/assets/fe2a3123-0d19-4245-bfa4-92044d9f57d9"  />
+  <img src="https://github.com/user-attachments/assets/1efe31d1-2a55-4975-b86b-ac82a38e1b36"  />
 </div>
 <div>
-  <img src="https://github.com/user-attachments/assets/94688a83-8c73-483d-863f-9fabd9ae483d" width="45%" />
-  <img src="https://github.com/user-attachments/assets/f1604b1b-cc8e-4bcd-a51c-c73f67c1ea3c" width="45%" />
+  <img src="https://github.com/user-attachments/assets/94688a83-8c73-483d-863f-9fabd9ae483d"  />
+  <img src="https://github.com/user-attachments/assets/f1604b1b-cc8e-4bcd-a51c-c73f67c1ea3c"  />
 </div>
 <div>
-  <img src="https://github.com/user-attachments/assets/fa17717b-cf12-4a8c-a2e9-a2e9fcd40ac9" width="45%" />
-  <img src="https://github.com/user-attachments/assets/a4e8050b-9e8d-442a-8256-6860a08a5f0c" width="45%" />
+  <img src="https://github.com/user-attachments/assets/fa17717b-cf12-4a8c-a2e9-a2e9fcd40ac9"  />
+  <img src="https://github.com/user-attachments/assets/a4e8050b-9e8d-442a-8256-6860a08a5f0c"  />
 </div>
 <div>
-  <img src="https://github.com/user-attachments/assets/b94e1943-7719-41cc-a79e-2b3737699bc8" width="45%" />
-  <img src="https://github.com/user-attachments/assets/5cee8c66-bf68-4993-93d7-24b0db69336e" width="45%" />
+  <img src="https://github.com/user-attachments/assets/b94e1943-7719-41cc-a79e-2b3737699bc8"  />
+  <img src="https://github.com/user-attachments/assets/5cee8c66-bf68-4993-93d7-24b0db69336e"  />
 </div>
 <div>
-  <img src="https://github.com/user-attachments/assets/299a6e8f-ed4d-4629-8a53-eba6d7d85cae" width="45%" />
-  <img src="https://github.com/user-attachments/assets/d2523d79-87c7-449d-b48e-c27301b1b44f" width="45%" />
+  <img src="https://github.com/user-attachments/assets/299a6e8f-ed4d-4629-8a53-eba6d7d85cae"  />
+  <img src="https://github.com/user-attachments/assets/d2523d79-87c7-449d-b48e-c27301b1b44f"  />
 </div>
 <div>
-  <img src="https://github.com/user-attachments/assets/cac37d1d-08a2-4ade-ac52-a69011617b4e" width="45%" />
-  <img src="https://github.com/user-attachments/assets/1011d76c-2cd7-496b-a747-1117ab819c8a" width="45%" />
+  <img src="https://github.com/user-attachments/assets/cac37d1d-08a2-4ade-ac52-a69011617b4e"  />
+  <img src="https://github.com/user-attachments/assets/1011d76c-2cd7-496b-a747-1117ab819c8a"  />
 </div>
 <div>
-  <img src="https://github.com/user-attachments/assets/7a5059c0-ca7f-4b5f-b9f8-2a792de091c9" width="45%" />
-  <img src="https://github.com/user-attachments/assets/a9e010b9-603a-4e1f-81e9-61200f368521" width="45%" />
+  <img src="https://github.com/user-attachments/assets/7a5059c0-ca7f-4b5f-b9f8-2a792de091c9"  />
+  <img src="https://github.com/user-attachments/assets/a9e010b9-603a-4e1f-81e9-61200f368521"  />
 </div>
 <div>
-  <img src="https://github.com/user-attachments/assets/b53361a6-aab9-4e95-a09b-b0678f5b544e" width="45%" />
-  <img src="https://github.com/user-attachments/assets/4a983885-c8b9-452c-b476-2e9e6707de39" width="45%" />
+  <img src="https://github.com/user-attachments/assets/b53361a6-aab9-4e95-a09b-b0678f5b544e"  />
+  <img src="https://github.com/user-attachments/assets/4a983885-c8b9-452c-b476-2e9e6707de39"  />
 </div>
 <div>
-  <img src="https://github.com/user-attachments/assets/e64c078a-9c2e-459b-94b1-78e54c4c898b" width="45%" />
+  <img src="https://github.com/user-attachments/assets/e64c078a-9c2e-459b-94b1-78e54c4c898b"  />
 </div>
 
 ---
