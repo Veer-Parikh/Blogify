@@ -6,12 +6,14 @@ import placeholder from "../assets/placeholder.jpg";
 import likeIcon from "../assets/like.png";
 import unlikeIcon from "../assets/unlike.png";
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
 import blankImage from "../assets/blank.webp"
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Blog = ({ blog, onDelete, visible }) => {
-  const { blogId, title, text, tags, user, createdAt, Images, likedBy, comments } = blog;
+  const { blogId, title, text, tags, user, createdAt, Images, likedBy, comments,titleSentimentScore,textSentimentScore } = blog;
   const media = Images || [];
+  const navigate = useNavigate();
   const username = user?.username || "";
   const firstImage = media.length > 0 ? media[0].url : placeholder;
   const truncatedText = text.split(' ').slice(0, 20).join(' ') + '...';
@@ -22,7 +24,6 @@ const Blog = ({ blog, onDelete, visible }) => {
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('accessToken');
   const noComments = "No comments on this blog yet"
-
   useEffect(() => {
     const checkLikeStatus = async () => {
       try {
@@ -68,6 +69,40 @@ const Blog = ({ blog, onDelete, visible }) => {
       console.error('Error liking blog:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const age = localStorage.getItem("age")
+
+  const handleClick = async () => {
+    try {
+      if (blog.textSentimentScore <= 0 || blog.titleSentimentScore < 0) {
+        if (age < 18) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Age Restriction',
+            text: 'You must be 18 or older to view this content.'
+          });
+          return;
+        } else {
+        const result = await Swal.fire({
+          icon: 'warning',
+          title: 'Content Warning',
+          text: 'The blog has certain text that might not be suitable for all types of audience. Would you still like to proceed?',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, proceed',
+          cancelButtonText: 'No, go back'
+        });
+        if (result.isConfirmed) {
+          navigate(`/blog/${blogId}`); 
+          return;
+        }
+      }
+    } else {
+      navigate(`/blog/${blogId}`)
+    }  
+    } catch (error) {
+      console.error('Error checking blog content:', error);
     }
   };
 
@@ -126,9 +161,13 @@ const Blog = ({ blog, onDelete, visible }) => {
 
   return (
     <div className="blog-card">
-      <Link to={`/blog/${blogId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <div className='link' onClick={handleClick}>
         <div className="blog-header">
+        {titleSentimentScore > -1 ? (
           <h2>{title}</h2>
+        ) : (
+          <h2>**** ****</h2>
+        )}
           {username && <p>By {username} {timeAgo}</p>}
         </div>
         <div className="blog-media">
@@ -139,9 +178,13 @@ const Blog = ({ blog, onDelete, visible }) => {
           )}
         </div>
         <div className="blog-content" style={{ overflow: "hidden" }}>
-          <pre>{truncatedText}</pre>
+          {textSentimentScore > 0 ? (
+            <pre>{truncatedText}</pre>
+          ) : (
+            <pre>**** ****</pre>
+          )}
         </div>
-      </Link>
+      </div>
       <div className="blog-footer">
         <div className="blog-likes">
           <p>{likeCount}</p>

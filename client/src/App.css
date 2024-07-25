@@ -169,7 +169,29 @@ h1{
     font-size: 24px;
     color: #eaeaea;
 }
-  
+
+.pre-container {
+    width: 100%;
+    max-width: 100%;
+    /* overflow-x: auto; */
+}
+
+pre {
+    font-size: large;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    white-space: pre-wrap;       /* CSS3 */
+    white-space: -moz-pre-wrap;  /* Firefox */
+    white-space: -pre-wrap;      /* Opera <7 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* IE */
+    /* background-color: #f8f8f8; */
+    padding: 10px;
+    /* border: 1px solid #ccc; */
+    /* border-radius: 4px; */
+    max-width: 100%;             /* Ensure it doesn't overflow the container */
+  }
+
+
 .blog-header p {
     margin: 5px 0 0;
     color: #777;

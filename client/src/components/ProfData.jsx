@@ -62,6 +62,7 @@ const ProfData = () => {
 
     setTimeout(()=>{
         localStorage.setItem("userId",userData.userId)
+        localStorage.setItem("age",userData.age)
     },2000)
 
     if (!userData) {
