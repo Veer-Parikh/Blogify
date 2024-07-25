@@ -25,16 +25,18 @@ model User {
 }
 
 model Blog {
-  blogId     String     @id @default(uuid())
-  text       String
-  title      String
-  tags       String[]
-  user       User       @relation(fields: [userUserId], references: [userId])
-  createdAt  DateTime   @default(now())
-  userUserId String
-  comments   Comment[]
-  likedBy    BlogLike[]
-  Images     Images[]
+  blogId              String     @id @default(uuid())
+  text                String
+  title               String
+  titleSentimentScore Int?
+  textSentimentScore  Int?
+  tags                String[]
+  user                User       @relation(fields: [userUserId], references: [userId])
+  createdAt           DateTime   @default(now())
+  userUserId          String
+  comments            Comment[]
+  likedBy             BlogLike[]
+  Images              Images[]
 }
 
 model Comment {

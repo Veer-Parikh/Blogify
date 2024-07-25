@@ -1,20 +1,31 @@
 const { P } = require("pino");
 const prisma = require("../../prisma");
 const logger = require("../../utils/logger");
+const Sentiment = require('sentiment');
+const sentiment = new Sentiment();
 
 async function createBlog(req, res) {
     try {
-        const { text,tags,title } = req.body;
-        userId = req.user.userId
-        const tagsArray = tags ? tags.split(' ').map(tag => tag.trim()) : []
+        const { text, tags, title } = req.body;
+        const userId = req.user.userId;
+
+        // Perform sentiment analysis on the blog title and text
+        const titleSentiment = sentiment.analyze(title);
+        const textSentiment = sentiment.analyze(text);
+
+        const tagsArray = tags ? tags.split(' ').map(tag => tag.trim()) : [];
+
         const blog = await prisma.blog.create({
             data: {
                 text,
                 userUserId: userId,
                 tags: tagsArray,
-                title
-            }
+                title,
+                titleSentimentScore: titleSentiment.score,
+                textSentimentScore: textSentiment.score,
+            },
         });
+
         logger.info("Blog created:", blog);
         res.status(201).json(blog); // Return the created blog with status 201 (Created)
     } catch (error) {
@@ -22,6 +33,7 @@ async function createBlog(req, res) {
         res.status(500).send(error); // Handle errors appropriately
     }
 }
+
 
 // async function getAllBlogs(req, res) {
 //     try {
@@ -82,6 +94,8 @@ async function getAllBlogs(req, res) {
                         imageId: true,
                     },
                 },
+                textSentimentScore:true,
+                titleSentimentScore:true
             },
             orderBy: {
                 likedBy: { _count: "desc" },
@@ -153,6 +167,8 @@ async function getMyBlogs(req, res) {
                 title:true,
                 userUserId:true,
                 Images:true,
+                textSentimentScore:true,
+                titleSentimentScore:true
             },
             orderBy:{
                 createdAt:"desc"
@@ -188,7 +204,9 @@ async function getBlogById(req, res) {
                 createdAt:true,
                 likedBy:true,
                 user:true,
-                Images:true
+                Images:true,
+                textSentimentScore:true,
+                titleSentimentScore:true
             }
         });
         if (!blog) {
@@ -218,7 +236,9 @@ async function getBlogByUsername(req, res) {
                 },
                 createdAt:true,
                 likedBy:true,
-                user:true
+                user:true,
+                textSentimentScore:true,
+                titleSentimentScore:true
             }
         });
         if (!blog) {
@@ -279,7 +299,9 @@ async function getBlogBySearch(req,res){
                 text:true,
                 title:true,
                 user:true,
-                userUserId:true
+                userUserId:true,
+                textSentimentScore:true,
+                titleSentimentScore:true
             }
         });
         logger.info("Blogs found")
@@ -315,6 +337,11 @@ async function deleteBlog(req, res) {
             },
         });
         await prisma.images.deleteMany({
+            where: {
+                blog:{blogId:blogId},
+            },
+        })
+        await prisma.comment.deleteMany({
             where: {
                 blog:{blogId:blogId},
             },
