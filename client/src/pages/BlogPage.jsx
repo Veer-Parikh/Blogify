@@ -27,7 +27,7 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/blog/blog/${blogId}`, {
+        const response = await axios.get(`{{url}}/blog/blog/${blogId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -52,7 +52,7 @@ const BlogPage = () => {
           throw new Error('Authorization token is missing');
         }
         const response = await axios.get(
-          `http://localhost:3000/blogLike/check/${blogId}/${userId}`
+          `{{url}}/blogLike/check/${blogId}/${userId}`
         );
         setIsLiked(response.data.isLiked);
       } catch (error) {
@@ -70,7 +70,7 @@ const BlogPage = () => {
         throw new Error('Authorization token is missing');
       }
       const response = await axios.post(
-        `http://localhost:3000/blogLike/createBlogLike/${blogId}`,
+        `{{url}}/blogLike/createBlogLike/${blogId}`,
         { userId },
         {
           headers: {
@@ -94,7 +94,7 @@ const BlogPage = () => {
 
   const handleSend = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/comment/createComment', {
+      const response = await axios.post('{{url}}/comment/createComment', {
         text: commentText,
         blogId,
       }, {
@@ -117,7 +117,7 @@ const BlogPage = () => {
       }
 
       const response = await axios.delete(
-        `http://localhost:3000/blogLike/deleteBlogLike/${blogId}/${userId}`,
+        `{{url}}/blogLike/deleteBlogLike/${blogId}/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -140,7 +140,7 @@ const BlogPage = () => {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      await axios.delete(`http://localhost:3000/comment/deleteComment/${commentId}`, {
+      await axios.delete(`{{url}}/comment/deleteComment/${commentId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}` // Adjust if you're using a different way to store tokens
         }

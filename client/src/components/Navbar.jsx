@@ -39,7 +39,7 @@ const Navbar = () => {
 
     useEffect(() => {
         if (token) {
-            axios.get('http://localhost:3000/user/my', {
+            axios.get('{{url}}/user/my', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

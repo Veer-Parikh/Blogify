@@ -17,7 +17,7 @@ const Search = () => {
 
     const handleLike = async (blogId) => {
         try {
-          axios.post(`http://localhost:3000/blogLike/createBlogLike/${blogId}`,{
+          axios.post(`{{url}}/blogLike/createBlogLike/${blogId}`,{
             headers:{
               Authorization:`Bearer ${token}`
             }
@@ -36,7 +36,7 @@ const Search = () => {
             // Add a delay to debounce the API call
             const delayDebounceFn = setTimeout(() => {
                 setIsLoading(true);
-                axios.get(`http://localhost:3000/blog/search/${searchTerm}`, {
+                axios.get(`{{url}}/blog/search/${searchTerm}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

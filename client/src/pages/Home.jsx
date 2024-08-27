@@ -11,7 +11,7 @@ const Home = () => {
 
   const handleLike = async (blogId) => {
     try {
-      axios.post(`http://localhost:3000/blogLike/createBlogLike/${blogId}`,{
+      axios.post(`{{url}}/blogLike/createBlogLike/${blogId}`,{
         headers:{
           Authorization:`Bearer ${token}`
         }
@@ -27,7 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     // Fetch blog data from your API
-    axios.get('http://localhost:3000/blog/blogs/blogFollow',{
+    axios.get('{{url}}/blog/blogs/blogFollow',{
       headers:{
         Authorization:`Bearer ${token}`
       }

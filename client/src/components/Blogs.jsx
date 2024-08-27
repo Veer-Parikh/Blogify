@@ -31,7 +31,7 @@ const Blog = ({ blog, onDelete, visible }) => {
           throw new Error('Authorization token is missing');
         }
         const response = await axios.get(
-          `http://localhost:3000/blogLike/check/${blogId}/${userId}`
+          `{{url}}/blogLike/check/${blogId}/${userId}`
         );
 
         setIsLiked(response.data.isLiked);
@@ -50,7 +50,7 @@ const Blog = ({ blog, onDelete, visible }) => {
         throw new Error('Authorization token is missing');
       }
       const response = await axios.post(
-        `http://localhost:3000/blogLike/createBlogLike/${blogId}`,
+        `{{url}}/blogLike/createBlogLike/${blogId}`,
         { userId },
         {
           headers: {
@@ -114,7 +114,7 @@ const Blog = ({ blog, onDelete, visible }) => {
       }
 
       const response = await axios.delete(
-        `http://localhost:3000/blogLike/deleteBlogLike/${blogId}/${userId}`,
+        `{{url}}/blogLike/deleteBlogLike/${blogId}/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -141,7 +141,7 @@ const Blog = ({ blog, onDelete, visible }) => {
         throw new Error('Authorization token is missing');
       }
       const response = await axios.delete(
-        `http://localhost:3000/blog/deleteBlog/${blogId}`,
+        `{{url}}/blog/deleteBlog/${blogId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -282,7 +282,7 @@ export default Blog;
 //           throw new Error('Authorization token is missing');
 //         }
 //         const response = await axios.get(
-//           `http://localhost:3000/blogLike/check/${blogId}/${userId}`
+//           `{{url}}/blogLike/check/${blogId}/${userId}`
 //         );
 
 //         setIsLiked(response.data.isLiked);
@@ -301,7 +301,7 @@ export default Blog;
 //         throw new Error('Authorization token is missing');
 //       }
 //       const response = await axios.post(
-//         `http://localhost:3000/blogLike/createBlogLike/${blogId}`,
+//         `{{url}}/blogLike/createBlogLike/${blogId}`,
 //         { userId },
 //         {
 //           headers: {
@@ -331,7 +331,7 @@ export default Blog;
 //       }
 
 //       const response = await axios.delete(
-//         `http://localhost:3000/blogLike/deleteBlogLike/${blogId}/${userId}`,
+//         `{{url}}/blogLike/deleteBlogLike/${blogId}/${userId}`,
 //         // { userId },
 //         {
 //           headers: {
@@ -359,7 +359,7 @@ export default Blog;
 //         throw new Error('Authorization token is missing');
 //       }
 //       const response = await axios.delete(
-//         `http://localhost:3000/blog/deleteBlog/${blogId}`,
+//         `{{url}}/blog/deleteBlog/${blogId}`,
 //         {
 //           headers: {
 //             Authorization: `Bearer ${token}`,

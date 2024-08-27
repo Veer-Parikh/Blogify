@@ -14,7 +14,7 @@ const UserSearch = () => {
     if (searchTerm.trim() !== '') {
       setIsLoading(true);
       axios
-        .get(`http://localhost:3000/user/search/${searchTerm}`,{
+        .get(`{{url}}/user/search/${searchTerm}`,{
             headers:{
                 Authorization:`Bearer ${token}`
             }

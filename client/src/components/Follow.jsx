@@ -7,7 +7,7 @@ const Follow = ({ type }) => {
   const token = localStorage.getItem('accessToken'); // Retrieve the token from localStorage
 
   useEffect(() => {
-    axios.get('http://localhost:3000/user/my', {
+    axios.get('{{url}}/user/my', {
       headers: {
         Authorization: `Bearer ${token}`
       }

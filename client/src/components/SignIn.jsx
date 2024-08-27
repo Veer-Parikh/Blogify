@@ -25,7 +25,7 @@
 //     e.preventDefault();
 //     try {
 //       // Send POST request to login endpoint
-//       const response = await axios.post('http://localhost:3000/user/login', {
+//       const response = await axios.post('{{url}}/user/login', {
 //         username: formData.username,
 //         password: formData.password
 //       });
@@ -101,7 +101,7 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/user/login', {
+      const response = await axios.post('{{url}}/user/login', {
         username: formData.username,
         password: formData.password
       });

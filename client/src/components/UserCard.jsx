@@ -23,7 +23,7 @@
 //         }
 
 //         const response = await axios.get(
-//           `http://localhost:3000/follow/checkFollow/${user.userId}`,
+//           `{{url}}/follow/checkFollow/${user.userId}`,
 //           {
 //             headers: {
 //               Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@
 //       }
 
 //       const response = await axios.post(
-//         'http://localhost:3000/follow/createFollow',
+//         '{{url}}/follow/createFollow',
 //         { followedId: user.userId },
 //         {
 //           headers: {
@@ -161,7 +161,7 @@ const UserCard = ({ user }) => {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/follow/checkFollow/${user.userId}`,
+          `{{url}}/follow/checkFollow/${user.userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -191,7 +191,7 @@ const UserCard = ({ user }) => {
       }
 
       const response = await axios.post(
-        'http://localhost:3000/follow/createFollow',
+        '{{url}}/follow/createFollow',
         { followedId: user.userId },
         {
           headers: {

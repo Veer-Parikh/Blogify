@@ -18,7 +18,7 @@ const UserProfile = () => {
           throw new Error('User data is missing from localStorage.');
         }
 
-        const response = await axios.get(`http://localhost:3000/user/user/${username}`, {
+        const response = await axios.get(`{{url}}/user/user/${username}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

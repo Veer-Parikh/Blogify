@@ -11,7 +11,7 @@ const ProfBlog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/blog/myBlogs', {
+        const response = await axios.get('{{url}}/blog/myBlogs', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -75,7 +75,7 @@ export default ProfBlog;
 
 //   useEffect(() => {
 //     // Fetch blog data from your API
-//     axios.get('http://localhost:3000/blog/myBlogs',{
+//     axios.get('{{url}}/blog/myBlogs',{
 //       headers:{
 //         Authorization:`Bearer ${token}`
 //       }

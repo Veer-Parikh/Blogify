@@ -13,7 +13,7 @@ const ProfData = () => {
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
 
-        axios.get('http://localhost:3000/user/my', {
+        axios.get('{{url}}/user/my', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -43,7 +43,7 @@ const ProfData = () => {
         //     formData.append('image', blogData.image);
         // }
 
-        // axios.post('http://localhost:3000/blog/createBlog', formData, {
+        // axios.post('{{url}}/blog/createBlog', formData, {
         //     headers: {
         //         Authorization: `Bearer ${token}`,
         //     }

@@ -47,7 +47,7 @@
 //     }
 
 //     try {
-//       const response = await axios.post('http://localhost:3000/user/signup', userData, {
+//       const response = await axios.post('{{url}}/user/signup', userData, {
 //         headers: {
 //           'Content-Type': 'multipart/form-data'
 //         }
@@ -164,7 +164,7 @@
 //     }
 
 //     try {
-//       const response = await axios.post('http://localhost:3000/user/signup', userData, {
+//       const response = await axios.post('{{url}}/user/signup', userData, {
 //         headers: {
 //           'Content-Type': 'multipart/form-data'
 //         }
@@ -288,7 +288,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/user/signup', userData, {
+      const response = await axios.post('{{url}}/user/signup', userData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

@@ -13,7 +13,7 @@ const Explore = () => {
   const handleLike = async (blogId) => {
     try {
       await axios.post(
-        `http://localhost:3000/blogLike/createBlogLike/${blogId}`,
+        `{{url}}/blogLike/createBlogLike/${blogId}`,
         {},
         {
           headers: {
@@ -41,7 +41,7 @@ const Explore = () => {
   useEffect(() => {
     // Fetch blog data from your API
     axios
-      .get('http://localhost:3000/blog/getAll', {
+      .get('{{url}}/blog/getAll', {
         headers: {
           Authorization: `Bearer ${token}`
         }
